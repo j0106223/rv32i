@@ -1,6 +1,6 @@
 `default_nettype none
 module control (
-    instruction_opcode,
+    opcode,
     Branch,
     MemRead,
     MemtoReg,
@@ -10,7 +10,7 @@ module control (
     RegWrite
 );
 
-    input [6:0] instruction_opcode;
+    input [6:0] opcode;
     output      Branch;
     output      MemRead;
     output      MemtoReg;
@@ -19,7 +19,7 @@ module control (
     output      ALUSrc;
     output      RegWrite;
 
-    wire [6:0]i     = instruction_opcode;//just rename
+    wire [6:0]i     = opcode;//just rename
     wire R_format   = ~i[6] &  i[5] &  i[4] & ~i[3] & ~i[2] & i[1] & i[0];//0110011
     wire lw         = ~i[6] & ~i[5] & ~i[4] & ~i[3] & ~i[2] & i[1] & i[0];//0000011
     wire sw         = ~i[6] &  i[5] & ~i[4] & ~i[3] & ~i[2] & i[1] & i[0];//0100011
