@@ -1,11 +1,11 @@
 `default_nettype none
-module ImmGen (
+module imm_gen (
     instruction,
-    Immediate
+    imm
 );
 
-    input   [31:0] instruction;
-    output  [31:0] Immediate;
+    input      [31:0] instruction;
+    output reg [31:0] imm;
 
     wire [6:0]  opcode;
     wire [31:0] i;
@@ -14,8 +14,6 @@ module ImmGen (
     
     //for load store and branch
     //12 bits immediate extend to 32bits
-    reg [31:0]imm;
-    assign Immediate = imm;
     always @(*) begin
         case(opcode)
             7'b0000011,//I Type load
