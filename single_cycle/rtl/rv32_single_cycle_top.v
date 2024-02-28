@@ -5,7 +5,17 @@ module rv32_single_cycle_top (
 
     //instruction master
     //data master
-
+    rv32_single_cycle_core rv32_single_cycle_core(
+        .clk        (clk),
+        .reset_n    (reset_n),
+        .address,
+        .read,
+        .write,
+        .wdata,
+        .rdata,
+        .instruction,
+        .pc
+    );
     instruction_memory instruction_memory(
         address,
         data
@@ -13,11 +23,11 @@ module rv32_single_cycle_top (
 
     data_memory data_memory(
         .clk(clk)
-        address
-        read
-        write
-        rdata
-        wdata
+        .address
+        .read
+        .write
+        .rdata
+        .wdata
     );
 
     regfile regfile(
@@ -30,4 +40,6 @@ module rv32_single_cycle_top (
         wa,         //write address
         wd          //write data
     );
+
+    
 endmodule
