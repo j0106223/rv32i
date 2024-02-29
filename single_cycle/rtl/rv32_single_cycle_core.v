@@ -71,19 +71,19 @@ module rv32_single_cycle_core (
 
     assign wd = MemtoReg ? rdata : ALU_result;
     regfile regfile(
-        .clk(clk),
-        .ra1(instruction_19_15),        //read1 address
-        .ra2(instruction_24_20),        //read2 address
-        .rd1(rd1),        //read1 data
-        .rd2(rd2),        //read2 data
-        .write(),
-        .wa(instruction_11_7),         //write address
-        .wd(wd)          //write data
+        .clk    (clk),
+        .ra1    (instruction_19_15),//read1 address
+        .ra2    (instruction_24_20),//read2 address
+        .rd1    (rd1),              //read1 data
+        .rd2    (rd2),              //read2 data
+        .write  (),
+        .wa     (instruction_11_7), //write address
+        .wd     (wd)                //write data
     );
     assign wdata = rd2;
     imm_gen imm_gen(
         .instruction(instruction_31_0),
-        .imm(imm)
+        .imm        (imm)
     );MemtoReg
     control control(
         .opcode     (instruction_6_0),
@@ -97,10 +97,10 @@ module rv32_single_cycle_core (
     );
 
     ALU_control ALU_control (
-        .instruction_funct3(instruction_14_12),
-        .instruction_funct7(instruction_31_25),  //just only needs take instruction[30],funct7[6]
-        .ALUOp(ALUOp),
-        .ALU_Operation(ALU_Operation)
+        .instruction_funct3 (instruction_14_12),
+        .instruction_funct7 (instruction_31_25),  //just only needs take instruction[30],funct7[6]
+        .ALUOp              (ALUOp),
+        .ALU_Operation      (ALU_Operation)
     );
 
     assign rd2_ALU = ALUSrc ? imm: rd2;
