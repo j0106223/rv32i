@@ -18,9 +18,9 @@ module ALU (
 
     always @* begin
         case(ALU_Operation)
-            AND:result = Data1 + Data2;
+            AND:result = Data1 & Data2;
             OR :result = Data1 | Data2;
-            ADD:result = Data1 & Data2;
+            ADD:result = Data1 + Data2;
             SUB:result = Data1 - Data2;
         endcase
     end
