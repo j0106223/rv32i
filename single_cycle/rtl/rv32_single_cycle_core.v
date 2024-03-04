@@ -30,7 +30,6 @@ module rv32_single_cycle_core (
     wire   [4:0]    instruction_11_7  = instruction[11:7];
     wire   [31:0]   instruction_31_0  = instruction;
     wire   [2:0]    instruction_14_12  = instruction[14:12];
-    wire   [2:0]    instruction_31_25  = instruction[31:25];
     
     // regfile
     wire   [31:0]   rd1;
@@ -98,7 +97,7 @@ module rv32_single_cycle_core (
 
     ALU_control ALU_control (
         .instruction_funct3 (instruction_14_12),
-        .instruction_funct7 (instruction_31_25),  //just only needs take instruction[30],funct7[6]
+        .instruction_funct7 (instruction[30]),  //just only needs take instruction[30],funct7[6]
         .ALUOp              (ALUOp),
         .ALU_Operation      (ALU_Operation)
     );
