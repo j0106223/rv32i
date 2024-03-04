@@ -19,13 +19,19 @@ module data_memory(
     reg [DW-1:0] rdata;
     always @(posedge clk) begin
         if (write) begin
-            mem[address] <= wdata;
+            mem[address]   <= wdata[31:24];
+            mem[address+1] <= wdata[23:16];
+            mem[address+2] <= wdata[15:8];
+            mem[address+3] <= wdata[7:0];
         end
     end
 
     always @(posedge clk) begin
         if (read) begin
-            rdata <= mem[address];
+            rdata[31:24] <= mem[address];
+            rdata[23:16] <= mem[address+1];
+            rdata[15:8]  <= mem[address+2];
+            rdata[7:0]   <= mem[address+3];
         end
     end
     
