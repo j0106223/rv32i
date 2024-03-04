@@ -6,9 +6,9 @@ module ALU (
     output          ZERO
 );
 
-    localparam ADD  = 4'b0000;
+    localparam AND  = 4'b0000;
     localparam OR   = 4'b0001;
-    localparam AND  = 4'b0010;
+    localparam ADD  = 4'b0010;
     localparam SUB  = 4'b0110;
     
     reg     [31:0]  result;
@@ -18,9 +18,9 @@ module ALU (
 
     always @* begin
         case(ALU_Operation)
-            ADD:result = Data1 + Data2;
+            AND:result = Data1 + Data2;
             OR :result = Data1 | Data2;
-            AND:result = Data1 & Data2;
+            ADD:result = Data1 & Data2;
             SUB:result = Data1 - Data2;
         endcase
     end
