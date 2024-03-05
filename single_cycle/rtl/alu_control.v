@@ -1,5 +1,5 @@
 `default_nettype none
-module ALU_control (
+module alu_control (
     instruction_funct3,
     instruction_funct7,
     ALUOp,

@@ -94,7 +94,7 @@ module rv32_single_cycle_core (
         .RegWrite   (RegWrite)
     );
 
-    ALU_control ALU_control (
+    alu_control alu_control (
         .instruction_funct3 (instruction_14_12),
         .instruction_funct7 (instruction[30]),  //just only needs take instruction[30],funct7[6]
         .ALUOp              (ALUOp),
@@ -102,7 +102,7 @@ module rv32_single_cycle_core (
     );
 
     assign rd2_ALU = ALUSrc ? imm: rd2;
-    ALU ALU (
+    alu alu (
         .ALU_Operation  (ALU_Operation),
         .Data1          (rd1),
         .Data2          (rd2_ALU),

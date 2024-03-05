@@ -1,5 +1,5 @@
 `default_nettype none
-module ALU (
+module alu (
     ALU_Operation,
     Data1,
     Data2,
