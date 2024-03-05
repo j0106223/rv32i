@@ -57,7 +57,7 @@ module rv32_single_cycle_core (
     wire   [31:0]   imm;
     assign offset = imm;
 
-    wire   pc_nx;
+    wire   [31:0] pc_nx;
     assign pc_nx = (Branch && ZERO) ? pc+4 : pc+offset;
     always @(posedge clk or negedge reset_n) begin
         if(!reset_n)begin
