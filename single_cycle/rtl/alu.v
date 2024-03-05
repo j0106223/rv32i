@@ -30,6 +30,7 @@ module alu (
             OR :result = Data1 | Data2;
             ADD:result = Data1 + Data2;
             SUB:result = Data1 - Data2;
+            default result = 32'hxxxx_xxxx;
         endcase
     end
         
