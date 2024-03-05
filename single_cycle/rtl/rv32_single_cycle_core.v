@@ -10,19 +10,18 @@ module rv32_single_cycle_core (
     rdata,
     pc
 );
-    parameter [31:0] RESET_VECTOR = 32h'0000_0000;
+    parameter [31:0] RESET_VECTOR = 0;
     parameter AW = 32;
     parameter DW = 32;
-
-    input           clk;
-    input           reset_n;
-    input           instruction;
-    output [AW-1:0] address;
-    output          MemRead;
-    output          MemWrite;
-    output [DW-1:0] wdata;
-    input  [DW-1:0] rdata;
-    output   [31:0] pc;
+    input             clk;
+    input             reset_n;
+    input      [31:0] instruction;
+    output   [AW-1:0] address;
+    output            MemRead;
+    output            MemWrite;
+    output   [DW-1:0] wdata;
+    input    [DW-1:0] rdata;
+    output reg [31:0] pc;
     
     // Decode
     wire   [6:0]    instruction_6_0   = instruction[6:0];
@@ -60,7 +59,6 @@ module rv32_single_cycle_core (
 
     wire   pc_nx;
     assign pc_nx = (Branch && ZERO) ? pc+4 : pc+offset;
-    reg [31:0] pc;  
     always @(posedge clk or negedge reset_n) begin
         if(!reset_n)begin
             pc <= RESET_VECTOR;
@@ -84,7 +82,7 @@ module rv32_single_cycle_core (
     imm_gen imm_gen(
         .instruction(instruction_31_0),
         .imm        (imm)
-    );MemtoReg
+    );
     control control(
         .opcode     (instruction_6_0),
         .Branch     (Branch),

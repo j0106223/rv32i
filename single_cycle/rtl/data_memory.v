@@ -1,10 +1,10 @@
 `default_nettype none
 module data_memory(
-    clk
-    address
-    read
-    write
-    rdata
+    clk,
+    address,
+    read,
+    write,
+    rdata,
     wdata
 );
     parameter AW = 32;

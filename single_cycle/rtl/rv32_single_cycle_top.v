@@ -8,13 +8,17 @@ module rv32_single_cycle_top (
     //data master
     parameter AW = 32;
     parameter DW = 32;
+
+    input clk;
+    input reset_n;
+
     wire [31:0]   pc;
     wire [31:0]   instruction;
     wire [AW-1:0] address;
     wire          MemRead;
     wire          MemWrite;
-    wire [DW-1:0] pc;
     wire [DW-1:0] rdata;
+    wire [DW-1:0] wdata;
 
     rv32_single_cycle_core rv32_single_cycle_core (
         .clk        (clk),
@@ -29,8 +33,8 @@ module rv32_single_cycle_top (
     );
 
     instruction_memory instruction_memory(
-        address (pc),
-        data    (instruction)
+        .address (pc),
+        .data    (instruction)
     );
 
     data_memory data_memory(
