@@ -1,10 +1,18 @@
+`default_nettype none
 module ALU (
-    input   [3:0]   ALU_Operation,
-    input   [31:0]  Data1,
-    input   [31:0]  Data2,
-    output  [31:0]  ALU_result,
-    output          ZERO
+    ALU_Operation,
+    Data1,
+    Data2,
+    ALU_result,
+    ZERO
 );
+
+    input   [3:0]   ALU_Operation;
+    input   [31:0]  Data1;
+    input   [31:0]  Data2;
+    output  [31:0]  ALU_result;
+    output          ZERO;
+
 
     localparam AND  = 4'b0000;
     localparam OR   = 4'b0001;

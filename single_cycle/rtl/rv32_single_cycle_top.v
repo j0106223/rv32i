@@ -1,3 +1,4 @@
+`default_nettype none
 module rv32_single_cycle_top (
     clk,
     reset_n

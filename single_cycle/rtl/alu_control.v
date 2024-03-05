@@ -1,3 +1,4 @@
+`default_nettype none
 module ALU_control (
     instruction_funct3,
     instruction_funct7,

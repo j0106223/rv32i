@@ -1,4 +1,5 @@
-module instruction_memory(
+`default_nettype none
+module instruction_memory (
     address,
     data
 );
