@@ -75,7 +75,7 @@ module rv32_single_cycle_core (
         .ra2    (instruction_24_20),//read2 address
         .rd1    (rd1),              //read1 data
         .rd2    (rd2),              //read2 data
-        .write  (),
+        .write  (RegWrite),
         .wa     (instruction_11_7), //write address
         .wd     (wd)                //write data
     );
