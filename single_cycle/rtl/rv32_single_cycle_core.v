@@ -102,6 +102,7 @@ module rv32_single_cycle_core (
     );
 
     assign rd2_ALU = ALUSrc ? imm: rd2;
+    assign address = ALU_result;//access data memory
     alu alu (
         .ALU_Operation  (ALU_Operation),
         .Data1          (rd1),
