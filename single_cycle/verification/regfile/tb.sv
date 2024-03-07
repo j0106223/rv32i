@@ -1,9 +1,5 @@
 `timescale 1ns/1ps
 module tb;
-    initial begin
-        $dumpfile("tb.vcd");
-        $dumpvars(0,tb);
-    end
     reg        clk;
     reg        write;
     reg  [4:0] wa;
@@ -13,8 +9,20 @@ module tb;
     wire [31:0] rd1;
     wire [31:0] rd2;
     bit [31:0] reg_wdata[0:31];
-    reg [31:0] reg_rdata[0:31]; 
-    
+    reg [31:0] reg_rdata[0:31];
+    int fp;
+    int seed;
+    /*
+    initial begin
+        $dumpfile("tb.vcd");
+        $dumpvars(0,tb);
+    end
+    */
+    initial begin
+        fp = $fopen("seed.txt","r");
+        $fscanf(fp, "%d", seed);
+        $display("seed = %d", seed);
+    end
     initial begin
         clk = 0;
         forever begin
@@ -22,7 +30,7 @@ module tb;
         end
     end
     initial begin
-        for (int i = 0;i < 10; i++) begin
+        for (int i = 0;i < 1000; i++) begin
             $display("round %0d", i);
             test_reg();
         end
@@ -43,9 +51,9 @@ module tb;
         begin
             bit [31:0] data;
             for (int i = 0; i < 32; i++) begin
-                reg_wdata[i] = $random;
+                reg_wdata[i] = $random(seed);
                 write_reg(i, reg_wdata[i]);
-                read_reg(i, {$random} % 2);
+                read_reg(i, {$random(seed)} % 2);
                 if (i == 0) begin
                     if (reg_rdata[i] != 0) begin
                         $display("reg[0] should be hard-wried zero!!");
