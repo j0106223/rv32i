@@ -5,13 +5,14 @@ module instruction_memory (
 );
     parameter AW = 32;
     parameter DW = 32;
-    input  [AW-1:0] address;
-    output [DW-1:0] data;
+
+    input  wire [AW-1:0] address;
+    output wire [DW-1:0] data;
 
     reg [7:0] mem [0:1024];
 
     initial begin
-        $readmemh("a.hex",mem);
+        $readmemh("../Assembly/a.hex",mem);
     end
 
     assign data[31:24] = mem[address];
