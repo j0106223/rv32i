@@ -14,16 +14,24 @@ module tb;
         @(negedge clk);
         reset_n = 1'b1;
     end
-
     initial begin
+        $dumpfile("tb.vcd");
+        $dumpvars(0, tb);
+    end
+    initial begin
+        /*
         forever begin
             @(posedge clk);
-            if (DUT.data_memory.address == 7777) begin
+            if (DUT.pc == 7777) begin
                 $finish;
             end
-        end
+        end*/
+        #10000;
+        $finish;
     end
-
+    always @(posedge clk) begin
+        $display("pc = %0d",DUT.pc);
+    end
     rv32_single_cycle_top DUT(
         .clk     (clk),
         .reset_n (reset_n)
