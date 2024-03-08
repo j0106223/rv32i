@@ -55,9 +55,10 @@ module tb;
     end
 
     
-    always @(posedge clk) begin
-        $display("pc = %0d",rv32_single_cycle_top.pc);
+    initial begin
+        $monitor("%0t: pc = 0x%0x", $realtime, rv32_single_cycle_top.pc);
     end
+        
 
     rv32_single_cycle_top rv32_single_cycle_top(
         .clk     (clk),
