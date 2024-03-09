@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#define BASE 0x1000
+#define BASE 1024 
 #define SIZE 1024
 void init_mem(int base, int size, int init_value);
 void init_mem_random(int base, int size);
