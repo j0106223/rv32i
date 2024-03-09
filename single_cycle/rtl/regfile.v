@@ -23,7 +23,6 @@ module regfile (
     assign rd1 = (ra1 == 0) ? 32'h0000_0000 : regiser[ra1];//regiser[0] hard-wired to zero
     assign rd2 = (ra2 == 0) ? 32'h0000_0000 : regiser[ra2];//regiser[0] hard-wired to zero
     
-    integer i;
     always @(posedge clk) begin
         if (write && (wa != 0)) begin
             regiser[wa] <= wd;
