@@ -9,6 +9,8 @@ module data_memory(
 );
     parameter AW = 32;
     parameter DW = 32;
+    parameter BASE = 'h1000;
+    parameter SIZE = 1024; //byte
     input           clk;
     input  [AW-1:0] address;
     input  [DW-1:0] wdata;
@@ -16,7 +18,7 @@ module data_memory(
     input           read;
     input           write;
 
-    reg [7:0] mem [0:1024];
+    reg [7:0] mem [BASE:(BASE + SIZE)];
     reg [DW-1:0] rdata;
     always @(posedge clk) begin
         if (write) begin
