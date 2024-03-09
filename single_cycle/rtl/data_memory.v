@@ -37,5 +37,8 @@ module data_memory(
             rdata[7:0]   <= mem[address];
         end
     end
-    
+
+    initial begin // initiate data memory
+        $readmemh("data.hex", mem);
+    end
 endmodule

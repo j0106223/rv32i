@@ -12,7 +12,7 @@ module instruction_memory (
     reg [7:0] mem [0:1024];
 
     initial begin
-        $readmemh("../Assembly/a.hex",mem);
+        $readmemh("a.hex",mem);
     end
 
     assign data[31:24] = mem[address+3]; 

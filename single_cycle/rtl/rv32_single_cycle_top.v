@@ -8,7 +8,8 @@ module rv32_single_cycle_top (
     //data master
     parameter AW = 32;
     parameter DW = 32;
-
+    parameter DATA_MEMORY_BASE = 'h1000;
+    parameter DATA_MEMORY_SIZE = 1024;
     input clk;
     input reset_n;
 
@@ -37,7 +38,10 @@ module rv32_single_cycle_top (
         .data    (instruction)
     );
 
-    data_memory data_memory(
+    data_memory #(
+        .BASE       (DATA_MEMORY_BASE),
+        .SIZE       (DATA_MEMORY_SIZE)
+    )data_memory(
         .clk        (clk),
         .address    (address),
         .read       (MemRead),
