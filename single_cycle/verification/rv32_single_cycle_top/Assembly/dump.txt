@@ -1,0 +1,311 @@
+
+a.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	000000b3          	add	ra,zero,zero
+   4:	00000133          	add	sp,zero,zero
+   8:	000001b3          	add	gp,zero,zero
+   c:	00000233          	add	tp,zero,zero
+  10:	000002b3          	add	t0,zero,zero
+  14:	00000333          	add	t1,zero,zero
+  18:	000003b3          	add	t2,zero,zero
+  1c:	00000433          	add	s0,zero,zero
+  20:	000004b3          	add	s1,zero,zero
+  24:	00000533          	add	a0,zero,zero
+  28:	000005b3          	add	a1,zero,zero
+  2c:	00000633          	add	a2,zero,zero
+  30:	000006b3          	add	a3,zero,zero
+  34:	00000733          	add	a4,zero,zero
+  38:	000007b3          	add	a5,zero,zero
+  3c:	00000833          	add	a6,zero,zero
+  40:	000008b3          	add	a7,zero,zero
+  44:	00000933          	add	s2,zero,zero
+  48:	000009b3          	add	s3,zero,zero
+  4c:	00000a33          	add	s4,zero,zero
+  50:	00000ab3          	add	s5,zero,zero
+  54:	00000b33          	add	s6,zero,zero
+  58:	00000bb3          	add	s7,zero,zero
+  5c:	00000c33          	add	s8,zero,zero
+  60:	00000cb3          	add	s9,zero,zero
+  64:	00000d33          	add	s10,zero,zero
+  68:	00000db3          	add	s11,zero,zero
+  6c:	00000e33          	add	t3,zero,zero
+  70:	00000eb3          	add	t4,zero,zero
+  74:	00000f33          	add	t5,zero,zero
+  78:	00000fb3          	add	t6,zero,zero
+
+0000007c <_load_store_test>:
+  7c:	60002283          	lw	t0,1536(zero) # 600 <_load_store_test+0x584>
+  80:	40502023          	sw	t0,1024(zero) # 400 <_load_store_test+0x384>
+  84:	60402283          	lw	t0,1540(zero) # 604 <_load_store_test+0x588>
+  88:	40502223          	sw	t0,1028(zero) # 404 <_load_store_test+0x388>
+  8c:	60802283          	lw	t0,1544(zero) # 608 <_load_store_test+0x58c>
+  90:	40502423          	sw	t0,1032(zero) # 408 <_load_store_test+0x38c>
+  94:	60c02283          	lw	t0,1548(zero) # 60c <_load_store_test+0x590>
+  98:	40502623          	sw	t0,1036(zero) # 40c <_load_store_test+0x390>
+  9c:	61002283          	lw	t0,1552(zero) # 610 <_load_store_test+0x594>
+  a0:	40502823          	sw	t0,1040(zero) # 410 <_load_store_test+0x394>
+  a4:	61402283          	lw	t0,1556(zero) # 614 <_load_store_test+0x598>
+  a8:	40502a23          	sw	t0,1044(zero) # 414 <_load_store_test+0x398>
+  ac:	61802283          	lw	t0,1560(zero) # 618 <_load_store_test+0x59c>
+  b0:	40502c23          	sw	t0,1048(zero) # 418 <_load_store_test+0x39c>
+  b4:	61c02283          	lw	t0,1564(zero) # 61c <_load_store_test+0x5a0>
+  b8:	40502e23          	sw	t0,1052(zero) # 41c <_load_store_test+0x3a0>
+  bc:	62002283          	lw	t0,1568(zero) # 620 <_load_store_test+0x5a4>
+  c0:	42502023          	sw	t0,1056(zero) # 420 <_load_store_test+0x3a4>
+  c4:	62402283          	lw	t0,1572(zero) # 624 <_load_store_test+0x5a8>
+  c8:	42502223          	sw	t0,1060(zero) # 424 <_load_store_test+0x3a8>
+  cc:	62802283          	lw	t0,1576(zero) # 628 <_load_store_test+0x5ac>
+  d0:	42502423          	sw	t0,1064(zero) # 428 <_load_store_test+0x3ac>
+  d4:	62c02283          	lw	t0,1580(zero) # 62c <_load_store_test+0x5b0>
+  d8:	42502623          	sw	t0,1068(zero) # 42c <_load_store_test+0x3b0>
+  dc:	63002283          	lw	t0,1584(zero) # 630 <_load_store_test+0x5b4>
+  e0:	42502823          	sw	t0,1072(zero) # 430 <_load_store_test+0x3b4>
+  e4:	63402283          	lw	t0,1588(zero) # 634 <_load_store_test+0x5b8>
+  e8:	42502a23          	sw	t0,1076(zero) # 434 <_load_store_test+0x3b8>
+  ec:	63802283          	lw	t0,1592(zero) # 638 <_load_store_test+0x5bc>
+  f0:	42502c23          	sw	t0,1080(zero) # 438 <_load_store_test+0x3bc>
+  f4:	63c02283          	lw	t0,1596(zero) # 63c <_load_store_test+0x5c0>
+  f8:	42502e23          	sw	t0,1084(zero) # 43c <_load_store_test+0x3c0>
+  fc:	64002283          	lw	t0,1600(zero) # 640 <_load_store_test+0x5c4>
+ 100:	44502023          	sw	t0,1088(zero) # 440 <_load_store_test+0x3c4>
+ 104:	64402283          	lw	t0,1604(zero) # 644 <_load_store_test+0x5c8>
+ 108:	44502223          	sw	t0,1092(zero) # 444 <_load_store_test+0x3c8>
+ 10c:	64802283          	lw	t0,1608(zero) # 648 <_load_store_test+0x5cc>
+ 110:	44502423          	sw	t0,1096(zero) # 448 <_load_store_test+0x3cc>
+ 114:	64c02283          	lw	t0,1612(zero) # 64c <_load_store_test+0x5d0>
+ 118:	44502623          	sw	t0,1100(zero) # 44c <_load_store_test+0x3d0>
+ 11c:	65002283          	lw	t0,1616(zero) # 650 <_load_store_test+0x5d4>
+ 120:	44502823          	sw	t0,1104(zero) # 450 <_load_store_test+0x3d4>
+ 124:	65402283          	lw	t0,1620(zero) # 654 <_load_store_test+0x5d8>
+ 128:	44502a23          	sw	t0,1108(zero) # 454 <_load_store_test+0x3d8>
+ 12c:	65802283          	lw	t0,1624(zero) # 658 <_load_store_test+0x5dc>
+ 130:	44502c23          	sw	t0,1112(zero) # 458 <_load_store_test+0x3dc>
+ 134:	65c02283          	lw	t0,1628(zero) # 65c <_load_store_test+0x5e0>
+ 138:	44502e23          	sw	t0,1116(zero) # 45c <_load_store_test+0x3e0>
+ 13c:	66002283          	lw	t0,1632(zero) # 660 <_load_store_test+0x5e4>
+ 140:	46502023          	sw	t0,1120(zero) # 460 <_load_store_test+0x3e4>
+ 144:	66402283          	lw	t0,1636(zero) # 664 <_load_store_test+0x5e8>
+ 148:	46502223          	sw	t0,1124(zero) # 464 <_load_store_test+0x3e8>
+ 14c:	66802283          	lw	t0,1640(zero) # 668 <_load_store_test+0x5ec>
+ 150:	46502423          	sw	t0,1128(zero) # 468 <_load_store_test+0x3ec>
+ 154:	66c02283          	lw	t0,1644(zero) # 66c <_load_store_test+0x5f0>
+ 158:	46502623          	sw	t0,1132(zero) # 46c <_load_store_test+0x3f0>
+ 15c:	67002283          	lw	t0,1648(zero) # 670 <_load_store_test+0x5f4>
+ 160:	46502823          	sw	t0,1136(zero) # 470 <_load_store_test+0x3f4>
+ 164:	67402283          	lw	t0,1652(zero) # 674 <_load_store_test+0x5f8>
+ 168:	46502a23          	sw	t0,1140(zero) # 474 <_load_store_test+0x3f8>
+ 16c:	67802283          	lw	t0,1656(zero) # 678 <_load_store_test+0x5fc>
+ 170:	46502c23          	sw	t0,1144(zero) # 478 <_load_store_test+0x3fc>
+ 174:	67c02283          	lw	t0,1660(zero) # 67c <_load_store_test+0x600>
+ 178:	46502e23          	sw	t0,1148(zero) # 47c <_load_store_test+0x400>
+ 17c:	68002283          	lw	t0,1664(zero) # 680 <_load_store_test+0x604>
+ 180:	48502023          	sw	t0,1152(zero) # 480 <_load_store_test+0x404>
+ 184:	68402283          	lw	t0,1668(zero) # 684 <_load_store_test+0x608>
+ 188:	48502223          	sw	t0,1156(zero) # 484 <_load_store_test+0x408>
+ 18c:	68802283          	lw	t0,1672(zero) # 688 <_load_store_test+0x60c>
+ 190:	48502423          	sw	t0,1160(zero) # 488 <_load_store_test+0x40c>
+ 194:	68c02283          	lw	t0,1676(zero) # 68c <_load_store_test+0x610>
+ 198:	48502623          	sw	t0,1164(zero) # 48c <_load_store_test+0x410>
+ 19c:	69002283          	lw	t0,1680(zero) # 690 <_load_store_test+0x614>
+ 1a0:	48502823          	sw	t0,1168(zero) # 490 <_load_store_test+0x414>
+ 1a4:	69402283          	lw	t0,1684(zero) # 694 <_load_store_test+0x618>
+ 1a8:	48502a23          	sw	t0,1172(zero) # 494 <_load_store_test+0x418>
+ 1ac:	69802283          	lw	t0,1688(zero) # 698 <_load_store_test+0x61c>
+ 1b0:	48502c23          	sw	t0,1176(zero) # 498 <_load_store_test+0x41c>
+ 1b4:	69c02283          	lw	t0,1692(zero) # 69c <_load_store_test+0x620>
+ 1b8:	48502e23          	sw	t0,1180(zero) # 49c <_load_store_test+0x420>
+ 1bc:	6a002283          	lw	t0,1696(zero) # 6a0 <_load_store_test+0x624>
+ 1c0:	4a502023          	sw	t0,1184(zero) # 4a0 <_load_store_test+0x424>
+ 1c4:	6a402283          	lw	t0,1700(zero) # 6a4 <_load_store_test+0x628>
+ 1c8:	4a502223          	sw	t0,1188(zero) # 4a4 <_load_store_test+0x428>
+ 1cc:	6a802283          	lw	t0,1704(zero) # 6a8 <_load_store_test+0x62c>
+ 1d0:	4a502423          	sw	t0,1192(zero) # 4a8 <_load_store_test+0x42c>
+ 1d4:	6ac02283          	lw	t0,1708(zero) # 6ac <_load_store_test+0x630>
+ 1d8:	4a502623          	sw	t0,1196(zero) # 4ac <_load_store_test+0x430>
+ 1dc:	6b002283          	lw	t0,1712(zero) # 6b0 <_load_store_test+0x634>
+ 1e0:	4a502823          	sw	t0,1200(zero) # 4b0 <_load_store_test+0x434>
+ 1e4:	6b402283          	lw	t0,1716(zero) # 6b4 <_load_store_test+0x638>
+ 1e8:	4a502a23          	sw	t0,1204(zero) # 4b4 <_load_store_test+0x438>
+ 1ec:	6b802283          	lw	t0,1720(zero) # 6b8 <_load_store_test+0x63c>
+ 1f0:	4a502c23          	sw	t0,1208(zero) # 4b8 <_load_store_test+0x43c>
+ 1f4:	6bc02283          	lw	t0,1724(zero) # 6bc <_load_store_test+0x640>
+ 1f8:	4a502e23          	sw	t0,1212(zero) # 4bc <_load_store_test+0x440>
+ 1fc:	6c002283          	lw	t0,1728(zero) # 6c0 <_load_store_test+0x644>
+ 200:	4c502023          	sw	t0,1216(zero) # 4c0 <_load_store_test+0x444>
+ 204:	6c402283          	lw	t0,1732(zero) # 6c4 <_load_store_test+0x648>
+ 208:	4c502223          	sw	t0,1220(zero) # 4c4 <_load_store_test+0x448>
+ 20c:	6c802283          	lw	t0,1736(zero) # 6c8 <_load_store_test+0x64c>
+ 210:	4c502423          	sw	t0,1224(zero) # 4c8 <_load_store_test+0x44c>
+ 214:	6cc02283          	lw	t0,1740(zero) # 6cc <_load_store_test+0x650>
+ 218:	4c502623          	sw	t0,1228(zero) # 4cc <_load_store_test+0x450>
+ 21c:	6d002283          	lw	t0,1744(zero) # 6d0 <_load_store_test+0x654>
+ 220:	4c502823          	sw	t0,1232(zero) # 4d0 <_load_store_test+0x454>
+ 224:	6d402283          	lw	t0,1748(zero) # 6d4 <_load_store_test+0x658>
+ 228:	4c502a23          	sw	t0,1236(zero) # 4d4 <_load_store_test+0x458>
+ 22c:	6d802283          	lw	t0,1752(zero) # 6d8 <_load_store_test+0x65c>
+ 230:	4c502c23          	sw	t0,1240(zero) # 4d8 <_load_store_test+0x45c>
+ 234:	6dc02283          	lw	t0,1756(zero) # 6dc <_load_store_test+0x660>
+ 238:	4c502e23          	sw	t0,1244(zero) # 4dc <_load_store_test+0x460>
+ 23c:	6e002283          	lw	t0,1760(zero) # 6e0 <_load_store_test+0x664>
+ 240:	4e502023          	sw	t0,1248(zero) # 4e0 <_load_store_test+0x464>
+ 244:	6e402283          	lw	t0,1764(zero) # 6e4 <_load_store_test+0x668>
+ 248:	4e502223          	sw	t0,1252(zero) # 4e4 <_load_store_test+0x468>
+ 24c:	6e802283          	lw	t0,1768(zero) # 6e8 <_load_store_test+0x66c>
+ 250:	4e502423          	sw	t0,1256(zero) # 4e8 <_load_store_test+0x46c>
+ 254:	6ec02283          	lw	t0,1772(zero) # 6ec <_load_store_test+0x670>
+ 258:	4e502623          	sw	t0,1260(zero) # 4ec <_load_store_test+0x470>
+ 25c:	6f002283          	lw	t0,1776(zero) # 6f0 <_load_store_test+0x674>
+ 260:	4e502823          	sw	t0,1264(zero) # 4f0 <_load_store_test+0x474>
+ 264:	6f402283          	lw	t0,1780(zero) # 6f4 <_load_store_test+0x678>
+ 268:	4e502a23          	sw	t0,1268(zero) # 4f4 <_load_store_test+0x478>
+ 26c:	6f802283          	lw	t0,1784(zero) # 6f8 <_load_store_test+0x67c>
+ 270:	4e502c23          	sw	t0,1272(zero) # 4f8 <_load_store_test+0x47c>
+ 274:	6fc02283          	lw	t0,1788(zero) # 6fc <_load_store_test+0x680>
+ 278:	4e502e23          	sw	t0,1276(zero) # 4fc <_load_store_test+0x480>
+ 27c:	70002283          	lw	t0,1792(zero) # 700 <_load_store_test+0x684>
+ 280:	50502023          	sw	t0,1280(zero) # 500 <_load_store_test+0x484>
+ 284:	70402283          	lw	t0,1796(zero) # 704 <_load_store_test+0x688>
+ 288:	50502223          	sw	t0,1284(zero) # 504 <_load_store_test+0x488>
+ 28c:	70802283          	lw	t0,1800(zero) # 708 <_load_store_test+0x68c>
+ 290:	50502423          	sw	t0,1288(zero) # 508 <_load_store_test+0x48c>
+ 294:	70c02283          	lw	t0,1804(zero) # 70c <_load_store_test+0x690>
+ 298:	50502623          	sw	t0,1292(zero) # 50c <_load_store_test+0x490>
+ 29c:	71002283          	lw	t0,1808(zero) # 710 <_load_store_test+0x694>
+ 2a0:	50502823          	sw	t0,1296(zero) # 510 <_load_store_test+0x494>
+ 2a4:	71402283          	lw	t0,1812(zero) # 714 <_load_store_test+0x698>
+ 2a8:	50502a23          	sw	t0,1300(zero) # 514 <_load_store_test+0x498>
+ 2ac:	71802283          	lw	t0,1816(zero) # 718 <_load_store_test+0x69c>
+ 2b0:	50502c23          	sw	t0,1304(zero) # 518 <_load_store_test+0x49c>
+ 2b4:	71c02283          	lw	t0,1820(zero) # 71c <_load_store_test+0x6a0>
+ 2b8:	50502e23          	sw	t0,1308(zero) # 51c <_load_store_test+0x4a0>
+ 2bc:	72002283          	lw	t0,1824(zero) # 720 <_load_store_test+0x6a4>
+ 2c0:	52502023          	sw	t0,1312(zero) # 520 <_load_store_test+0x4a4>
+ 2c4:	72402283          	lw	t0,1828(zero) # 724 <_load_store_test+0x6a8>
+ 2c8:	52502223          	sw	t0,1316(zero) # 524 <_load_store_test+0x4a8>
+ 2cc:	72802283          	lw	t0,1832(zero) # 728 <_load_store_test+0x6ac>
+ 2d0:	52502423          	sw	t0,1320(zero) # 528 <_load_store_test+0x4ac>
+ 2d4:	72c02283          	lw	t0,1836(zero) # 72c <_load_store_test+0x6b0>
+ 2d8:	52502623          	sw	t0,1324(zero) # 52c <_load_store_test+0x4b0>
+ 2dc:	73002283          	lw	t0,1840(zero) # 730 <_load_store_test+0x6b4>
+ 2e0:	52502823          	sw	t0,1328(zero) # 530 <_load_store_test+0x4b4>
+ 2e4:	73402283          	lw	t0,1844(zero) # 734 <_load_store_test+0x6b8>
+ 2e8:	52502a23          	sw	t0,1332(zero) # 534 <_load_store_test+0x4b8>
+ 2ec:	73802283          	lw	t0,1848(zero) # 738 <_load_store_test+0x6bc>
+ 2f0:	52502c23          	sw	t0,1336(zero) # 538 <_load_store_test+0x4bc>
+ 2f4:	73c02283          	lw	t0,1852(zero) # 73c <_load_store_test+0x6c0>
+ 2f8:	52502e23          	sw	t0,1340(zero) # 53c <_load_store_test+0x4c0>
+ 2fc:	74002283          	lw	t0,1856(zero) # 740 <_load_store_test+0x6c4>
+ 300:	54502023          	sw	t0,1344(zero) # 540 <_load_store_test+0x4c4>
+ 304:	74402283          	lw	t0,1860(zero) # 744 <_load_store_test+0x6c8>
+ 308:	54502223          	sw	t0,1348(zero) # 544 <_load_store_test+0x4c8>
+ 30c:	74802283          	lw	t0,1864(zero) # 748 <_load_store_test+0x6cc>
+ 310:	54502423          	sw	t0,1352(zero) # 548 <_load_store_test+0x4cc>
+ 314:	74c02283          	lw	t0,1868(zero) # 74c <_load_store_test+0x6d0>
+ 318:	54502623          	sw	t0,1356(zero) # 54c <_load_store_test+0x4d0>
+ 31c:	75002283          	lw	t0,1872(zero) # 750 <_load_store_test+0x6d4>
+ 320:	54502823          	sw	t0,1360(zero) # 550 <_load_store_test+0x4d4>
+ 324:	75402283          	lw	t0,1876(zero) # 754 <_load_store_test+0x6d8>
+ 328:	54502a23          	sw	t0,1364(zero) # 554 <_load_store_test+0x4d8>
+ 32c:	75802283          	lw	t0,1880(zero) # 758 <_load_store_test+0x6dc>
+ 330:	54502c23          	sw	t0,1368(zero) # 558 <_load_store_test+0x4dc>
+ 334:	75c02283          	lw	t0,1884(zero) # 75c <_load_store_test+0x6e0>
+ 338:	54502e23          	sw	t0,1372(zero) # 55c <_load_store_test+0x4e0>
+ 33c:	76002283          	lw	t0,1888(zero) # 760 <_load_store_test+0x6e4>
+ 340:	56502023          	sw	t0,1376(zero) # 560 <_load_store_test+0x4e4>
+ 344:	76402283          	lw	t0,1892(zero) # 764 <_load_store_test+0x6e8>
+ 348:	56502223          	sw	t0,1380(zero) # 564 <_load_store_test+0x4e8>
+ 34c:	76802283          	lw	t0,1896(zero) # 768 <_load_store_test+0x6ec>
+ 350:	56502423          	sw	t0,1384(zero) # 568 <_load_store_test+0x4ec>
+ 354:	76c02283          	lw	t0,1900(zero) # 76c <_load_store_test+0x6f0>
+ 358:	56502623          	sw	t0,1388(zero) # 56c <_load_store_test+0x4f0>
+ 35c:	77002283          	lw	t0,1904(zero) # 770 <_load_store_test+0x6f4>
+ 360:	56502823          	sw	t0,1392(zero) # 570 <_load_store_test+0x4f4>
+ 364:	77402283          	lw	t0,1908(zero) # 774 <_load_store_test+0x6f8>
+ 368:	56502a23          	sw	t0,1396(zero) # 574 <_load_store_test+0x4f8>
+ 36c:	77802283          	lw	t0,1912(zero) # 778 <_load_store_test+0x6fc>
+ 370:	56502c23          	sw	t0,1400(zero) # 578 <_load_store_test+0x4fc>
+ 374:	77c02283          	lw	t0,1916(zero) # 77c <_load_store_test+0x700>
+ 378:	56502e23          	sw	t0,1404(zero) # 57c <_load_store_test+0x500>
+ 37c:	78002283          	lw	t0,1920(zero) # 780 <_load_store_test+0x704>
+ 380:	58502023          	sw	t0,1408(zero) # 580 <_load_store_test+0x504>
+ 384:	78402283          	lw	t0,1924(zero) # 784 <_load_store_test+0x708>
+ 388:	58502223          	sw	t0,1412(zero) # 584 <_load_store_test+0x508>
+ 38c:	78802283          	lw	t0,1928(zero) # 788 <_load_store_test+0x70c>
+ 390:	58502423          	sw	t0,1416(zero) # 588 <_load_store_test+0x50c>
+ 394:	78c02283          	lw	t0,1932(zero) # 78c <_load_store_test+0x710>
+ 398:	58502623          	sw	t0,1420(zero) # 58c <_load_store_test+0x510>
+ 39c:	79002283          	lw	t0,1936(zero) # 790 <_load_store_test+0x714>
+ 3a0:	58502823          	sw	t0,1424(zero) # 590 <_load_store_test+0x514>
+ 3a4:	79402283          	lw	t0,1940(zero) # 794 <_load_store_test+0x718>
+ 3a8:	58502a23          	sw	t0,1428(zero) # 594 <_load_store_test+0x518>
+ 3ac:	79802283          	lw	t0,1944(zero) # 798 <_load_store_test+0x71c>
+ 3b0:	58502c23          	sw	t0,1432(zero) # 598 <_load_store_test+0x51c>
+ 3b4:	79c02283          	lw	t0,1948(zero) # 79c <_load_store_test+0x720>
+ 3b8:	58502e23          	sw	t0,1436(zero) # 59c <_load_store_test+0x520>
+ 3bc:	7a002283          	lw	t0,1952(zero) # 7a0 <_load_store_test+0x724>
+ 3c0:	5a502023          	sw	t0,1440(zero) # 5a0 <_load_store_test+0x524>
+ 3c4:	7a402283          	lw	t0,1956(zero) # 7a4 <_load_store_test+0x728>
+ 3c8:	5a502223          	sw	t0,1444(zero) # 5a4 <_load_store_test+0x528>
+ 3cc:	7a802283          	lw	t0,1960(zero) # 7a8 <_load_store_test+0x72c>
+ 3d0:	5a502423          	sw	t0,1448(zero) # 5a8 <_load_store_test+0x52c>
+ 3d4:	7ac02283          	lw	t0,1964(zero) # 7ac <_load_store_test+0x730>
+ 3d8:	5a502623          	sw	t0,1452(zero) # 5ac <_load_store_test+0x530>
+ 3dc:	7b002283          	lw	t0,1968(zero) # 7b0 <_load_store_test+0x734>
+ 3e0:	5a502823          	sw	t0,1456(zero) # 5b0 <_load_store_test+0x534>
+ 3e4:	7b402283          	lw	t0,1972(zero) # 7b4 <_load_store_test+0x738>
+ 3e8:	5a502a23          	sw	t0,1460(zero) # 5b4 <_load_store_test+0x538>
+ 3ec:	7b802283          	lw	t0,1976(zero) # 7b8 <_load_store_test+0x73c>
+ 3f0:	5a502c23          	sw	t0,1464(zero) # 5b8 <_load_store_test+0x53c>
+ 3f4:	7bc02283          	lw	t0,1980(zero) # 7bc <_load_store_test+0x740>
+ 3f8:	5a502e23          	sw	t0,1468(zero) # 5bc <_load_store_test+0x540>
+ 3fc:	7c002283          	lw	t0,1984(zero) # 7c0 <_load_store_test+0x744>
+ 400:	5c502023          	sw	t0,1472(zero) # 5c0 <_load_store_test+0x544>
+ 404:	7c402283          	lw	t0,1988(zero) # 7c4 <_load_store_test+0x748>
+ 408:	5c502223          	sw	t0,1476(zero) # 5c4 <_load_store_test+0x548>
+ 40c:	7c802283          	lw	t0,1992(zero) # 7c8 <_load_store_test+0x74c>
+ 410:	5c502423          	sw	t0,1480(zero) # 5c8 <_load_store_test+0x54c>
+ 414:	7cc02283          	lw	t0,1996(zero) # 7cc <_load_store_test+0x750>
+ 418:	5c502623          	sw	t0,1484(zero) # 5cc <_load_store_test+0x550>
+ 41c:	7d002283          	lw	t0,2000(zero) # 7d0 <_load_store_test+0x754>
+ 420:	5c502823          	sw	t0,1488(zero) # 5d0 <_load_store_test+0x554>
+ 424:	7d402283          	lw	t0,2004(zero) # 7d4 <_load_store_test+0x758>
+ 428:	5c502a23          	sw	t0,1492(zero) # 5d4 <_load_store_test+0x558>
+ 42c:	7d802283          	lw	t0,2008(zero) # 7d8 <_load_store_test+0x75c>
+ 430:	5c502c23          	sw	t0,1496(zero) # 5d8 <_load_store_test+0x55c>
+ 434:	7dc02283          	lw	t0,2012(zero) # 7dc <_load_store_test+0x760>
+ 438:	5c502e23          	sw	t0,1500(zero) # 5dc <_load_store_test+0x560>
+ 43c:	7e002283          	lw	t0,2016(zero) # 7e0 <_load_store_test+0x764>
+ 440:	5e502023          	sw	t0,1504(zero) # 5e0 <_load_store_test+0x564>
+ 444:	7e402283          	lw	t0,2020(zero) # 7e4 <_load_store_test+0x768>
+ 448:	5e502223          	sw	t0,1508(zero) # 5e4 <_load_store_test+0x568>
+ 44c:	7e802283          	lw	t0,2024(zero) # 7e8 <_load_store_test+0x76c>
+ 450:	5e502423          	sw	t0,1512(zero) # 5e8 <_load_store_test+0x56c>
+ 454:	7ec02283          	lw	t0,2028(zero) # 7ec <_load_store_test+0x770>
+ 458:	5e502623          	sw	t0,1516(zero) # 5ec <_load_store_test+0x570>
+ 45c:	7f002283          	lw	t0,2032(zero) # 7f0 <_load_store_test+0x774>
+ 460:	5e502823          	sw	t0,1520(zero) # 5f0 <_load_store_test+0x574>
+ 464:	7f402283          	lw	t0,2036(zero) # 7f4 <_load_store_test+0x778>
+ 468:	5e502a23          	sw	t0,1524(zero) # 5f4 <_load_store_test+0x578>
+ 46c:	7f802283          	lw	t0,2040(zero) # 7f8 <_load_store_test+0x77c>
+ 470:	5e502c23          	sw	t0,1528(zero) # 5f8 <_load_store_test+0x57c>
+ 474:	7fc02283          	lw	t0,2044(zero) # 7fc <_load_store_test+0x780>
+ 478:	5e502e23          	sw	t0,1532(zero) # 5fc <_load_store_test+0x580>
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1941                	.2byte	0x1941
+   2:	0000                	.2byte	0x0
+   4:	7200                	.2byte	0x7200
+   6:	7369                	.2byte	0x7369
+   8:	01007663          	bgeu	zero,a6,14 <_start+0x14>
+   c:	0000000f          	fence	unknown,unknown
+  10:	7205                	.2byte	0x7205
+  12:	3376                	.2byte	0x3376
+  14:	6932                	.2byte	0x6932
+  16:	7032                	.2byte	0x7032
+  18:	0030                	.2byte	0x30
