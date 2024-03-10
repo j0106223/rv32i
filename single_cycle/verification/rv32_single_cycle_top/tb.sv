@@ -18,6 +18,7 @@ module tb;
         #1000;
         $finish;
     end
+    /*
     initial begin
         $dumpfile("tb.vcd");
         $dumpvars(0, tb);
@@ -53,7 +54,7 @@ module tb;
         $dumpvars(1, rv32_single_cycle_top.rv32_single_cycle_core.regfile.regiser[30]);
         $dumpvars(1, rv32_single_cycle_top.rv32_single_cycle_core.regfile.regiser[31]);
     end
-
+    */
     
     initial begin
         $monitor("%0t: pc = 0x%0x", $realtime, rv32_single_cycle_top.pc);
