@@ -58,9 +58,25 @@ module tb;
     initial begin
         $monitor("%0t: pc = 0x%0x", $realtime, rv32_single_cycle_top.pc);
     end
-
+    initial begin
+        #1;
+        show_data_memory();
+        #800;
+        show_data_memory();
+        
+    end
     rv32_single_cycle_top rv32_single_cycle_top(
         .clk     (clk),
         .reset_n (reset_n)
     );
+    task show_data_memory;
+        for (int i = 0; i < 1024; i++) begin
+            if(((i + 1) % 16 == 0) && (i != 0))begin
+                $display("%02x",rv32_single_cycle_top.data_memory.mem[1024+i]);
+            end else begin
+                $write("%02x ",rv32_single_cycle_top.data_memory.mem[1024+i]);
+            end
+        end
+        $display(" ");
+    endtask
 endmodule
