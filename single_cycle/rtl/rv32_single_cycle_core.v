@@ -39,10 +39,10 @@ module rv32_single_cycle_core (
 
     // control
     wire            Branch;
-    wire            MemRead;
+    //wire            MemRead; already declare as output 
     wire            MemtoReg;
     wire    [1:0]   ALUOp;
-    wire            MemWrite;
+    //wire            MemWrite; already declare as output
     wire            ALUSrc;
     wire            RegWrite;
 
