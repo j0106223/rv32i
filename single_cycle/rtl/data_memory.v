@@ -19,7 +19,6 @@ module data_memory(
     input           write;
 
     reg [7:0] mem [BASE:(BASE + SIZE)];
-    reg [DW-1:0] rdata;
     always @(posedge clk) begin
         if (write) begin
             mem[address+3] <= wdata[31:24];
@@ -29,14 +28,10 @@ module data_memory(
         end
     end
 
-    always @(posedge clk) begin
-        if (read) begin
-            rdata[31:24] <= mem[address+3];
-            rdata[23:16] <= mem[address+2];
-            rdata[15:8]  <= mem[address+1];
-            rdata[7:0]   <= mem[address];
-        end
-    end
+    assign rdata[31:24] = (read) ? mem[address+3] : {DW{1'bx}};
+    assign rdata[23:16] = (read) ? mem[address+2] : {DW{1'bx}};
+    assign rdata[15:8]  = (read) ? mem[address+1] : {DW{1'bx}};
+    assign rdata[7:0]   = (read) ? mem[address]   : {DW{1'bx}};
 
     initial begin // initiate data memory
         $readmemh("data.hex", mem);
