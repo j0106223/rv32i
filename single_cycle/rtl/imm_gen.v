@@ -4,7 +4,7 @@ module imm_gen (
     imm
 );
 
-    input      [31:0] instruction;
+    input wire [31:0] instruction;
     output reg [31:0] imm;
 
     wire [6:0]  opcode;

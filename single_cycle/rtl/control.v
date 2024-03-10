@@ -10,14 +10,14 @@ module control (
     RegWrite
 );
 
-    input [6:0] opcode;
-    output      Branch;
-    output      MemRead;
-    output      MemtoReg;
-    output[1:0] ALUOp;
-    output      MemWrite;
-    output      ALUSrc;
-    output      RegWrite;
+    input  wire [6:0] opcode;
+    output wire       Branch;
+    output wire       MemRead;
+    output wire       MemtoReg;
+    output wire [1:0] ALUOp;
+    output wire       MemWrite;
+    output wire       ALUSrc;
+    output wire       RegWrite;
 
     wire [6:0]i     = opcode;//just rename
     wire R_format   =  i[4];         //0110011

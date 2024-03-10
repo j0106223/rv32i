@@ -11,12 +11,13 @@ module data_memory(
     parameter DW = 32;
     parameter BASE = 'h1000;
     parameter SIZE = 1024; //byte
-    input           clk;
-    input  [AW-1:0] address;
-    input  [DW-1:0] wdata;
-    output [DW-1:0] rdata;
-    input           read;
-    input           write;
+    
+    input  wire          clk;
+    input  wire [AW-1:0] address;
+    input  wire [DW-1:0] wdata;
+    output wire [DW-1:0] rdata;
+    input  wire          read;
+    input  wire          write;
 
     reg [7:0] mem [BASE:(BASE + SIZE)];
     always @(posedge clk) begin

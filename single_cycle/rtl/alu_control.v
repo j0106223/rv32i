@@ -10,10 +10,10 @@ module alu_control (
     localparam ADD = 4'b0010;
     localparam SUB = 4'b0110;
 
-    input   [2:0]   instruction_funct3;
-    input           instruction_funct7;//just only needs take instruction[30],funct7[6]
-    input   [1:0]   ALUOp;
-    output  [3:0]   ALU_Operation;
+    input  wire [2:0] instruction_funct3;
+    input  wire       instruction_funct7;//just only needs take instruction[30],funct7[6]
+    input  wire [1:0] ALUOp;
+    output wire [3:0] ALU_Operation;
 
 
     reg  [3:0] control;

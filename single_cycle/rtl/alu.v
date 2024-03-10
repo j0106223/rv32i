@@ -7,11 +7,11 @@ module alu (
     ZERO
 );
 
-    input   [3:0]   ALU_Operation;
-    input   [31:0]  Data1;
-    input   [31:0]  Data2;
-    output  [31:0]  ALU_result;
-    output          ZERO;
+    input  wire [3:0]   ALU_Operation;
+    input  wire [31:0]  Data1;
+    input  wire [31:0]  Data2;
+    output wire [31:0]  ALU_result;
+    output wire         ZERO;
 
 
     localparam AND  = 4'b0000;

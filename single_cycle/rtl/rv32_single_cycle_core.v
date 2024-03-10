@@ -13,15 +13,15 @@ module rv32_single_cycle_core (
     parameter [31:0] RESET_VECTOR = 0;
     parameter AW = 32;
     parameter DW = 32;
-    input             clk;
-    input             reset_n;
-    input      [31:0] instruction;
-    output   [AW-1:0] address;
-    output            MemRead;
-    output            MemWrite;
-    output   [DW-1:0] wdata;
-    input    [DW-1:0] rdata;
-    output reg [31:0] pc;
+    input  wire          clk;
+    input  wire          reset_n;
+    input  wire   [31:0] instruction;
+    output wire [AW-1:0] address;
+    output wire          MemRead;
+    output wire          MemWrite;
+    output wire [DW-1:0] wdata;
+    input  wire [DW-1:0] rdata;
+    output reg    [31:0] pc;
     
     // Decode
     wire   [6:0]    instruction_6_0   = instruction[6:0];

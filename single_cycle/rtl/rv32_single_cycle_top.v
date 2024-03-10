@@ -10,8 +10,8 @@ module rv32_single_cycle_top (
     parameter DW = 32;
     parameter DATA_MEMORY_BASE = 'h400;
     parameter DATA_MEMORY_SIZE = 1024;
-    input clk;
-    input reset_n;
+    input wire clk;
+    input wire reset_n;
 
     wire [31:0]   pc;
     wire [31:0]   instruction;
