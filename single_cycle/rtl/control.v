@@ -20,10 +20,10 @@ module control (
     output wire       RegWrite;
 
     wire [6:0]i     = opcode;//just rename
-    wire R_format   =  i[4];         //0110011
-    wire lw         = ~i[6] & ~i[5]; //0000011
-    wire sw         = ~i[6] &  i[5]; //0100011
-    wire beq        =  i[6];         //1100011
+    wire R_format   = ~i[6] &  i[5] &  i[4] & ~i[3] & ~i[2] & i[1] & i[0];//0110011
+    wire lw         = ~i[6] & ~i[5] & ~i[4] & ~i[3] & ~i[2] & i[1] & i[0];//0000011
+    wire sw         = ~i[6] &  i[5] & ~i[4] & ~i[3] & ~i[2] & i[1] & i[0];//0100011
+    wire beq        =  i[6] &  i[5] & ~i[4] & ~i[3] & ~i[2] & i[1] & i[0];//1100011
     
     
     assign  Branch   = beq;
