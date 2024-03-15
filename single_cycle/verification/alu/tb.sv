@@ -24,6 +24,7 @@ module tb;
         fp = $fopen("seed.txt","r");
         $fscanf(fp, "%d", seed);
         $display("seed = %d", seed);
+        $fclose(fp);
     end
     initial begin
         for (int i = 0;i < 100; i++) begin

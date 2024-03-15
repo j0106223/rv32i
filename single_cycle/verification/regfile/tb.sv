@@ -22,6 +22,7 @@ module tb;
         fp = $fopen("seed.txt","r");
         $fscanf(fp, "%d", seed);
         $display("seed = %d", seed);
+        $fclose(fp);
     end
     initial begin
         clk = 0;
