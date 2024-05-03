@@ -3,42 +3,17 @@
 void run(struct rv32i_cpu* cpu, uint8_t* memory) {
     uint32_t inst;
     uint32_t opcode;
-    /*
-    uint32_t ra1;
-    uint32_t ra2;
-    uint32_t rd1;
-    uint32_t rd2;
-    uint32_t imm;
-    uint32_t result;
-    //control signals
-    uint32_t Branch;
-    uint32_t MemRead;
-    uint32_t MemtoReg;
-    uint32_t MemWrite;
-    uint32_t MemWstrb;
-    uint32_t ALUSrc;
-    uint32_t ALUOp;
-    uint32_t RegWrite;
-    uint32_t RegWrite;
-    uint32_t RegWstrb;
-    */
 
     while(1) {
         //instruction fetch
         inst = fetch_inst(memory, cpu->pc);
+        //decode
         opcode = inst & 127;
         switch (opcode)
         {
-        case R_TYPE:
-            EXE_R_TYPE(cpu, inst, 0);
-            /* code */
-            break;
-        case IR_TYPE:
-            EXE_R_TYPE(cpu, inst, 1);
-            /* code */
-            break;
+        case R_TYPE: EXE_R_TYPE(cpu, inst, 0); break;
+        case IR_TYPE: EXE_R_TYPE(cpu, inst, 1); break;
         case LOAD:
-            /* code */
             break;
         case S_TYPE:
             /* code */
@@ -80,7 +55,11 @@ void run(struct rv32i_cpu* cpu, uint8_t* memory) {
         //write back to register
 
         //update pc
-        
+        /*
+        if(debug_mode){
+            print all register and pc 
+        }
+        */
     }
 }
 
@@ -101,26 +80,16 @@ uint32_t alu(enum ALUOp alu_op, uint32_t a, uint32_t b) {
     uint32_t result;
     switch (alu_op)
     {
-    case ADD: 
-        break;
-    case ADD: 
-        break;
-    case ADD: 
-        break;
-    case ADD: 
-        break;
-    case ADD: 
-        break;
-    case ADD: 
-        break;
-    case ADD: 
-        break;
-    case ADD: 
-        break;
-    case ADD: 
-        break;
-    case ADD: 
-        break;
+    case ADD:  result = a + b;  break;
+    case SUB:  result = a - b;  break;
+    case SLL:  result = a << b; break;
+    case SLT:  result = (((int32_t)a) < ((int32_t)b));break;
+    case SLTU: result = (a < b);break;
+    case XOR:  result = a ^ b;  break;
+    case SRL:  result = a >> b; break;
+    case SRA:  result = ((int32_t)a) >> b;break;
+    case OR:   result = a | b;  break;
+    case AND:  result = a & b;  break;
     default:
         break;
     }
@@ -210,5 +179,29 @@ void EXE_JAL(struct rv32i_cpu* cpu, uint32_t inst) {
 
 }
 void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst) {
+
+}
+
+uint32_t get_inst_opcode(uint32_t inst){
+
+}
+
+uint32_t get_inst_rs1(uint32_t inst){
+
+}
+
+uint32_t get_inst_rs2(uint32_t inst){
+
+}
+
+uint32_t get_inst_rd_shamt(uint32_t inst){
+
+}
+
+uint32_t get_inst_func3(uint32_t inst){
+
+}
+
+uint32_t get_inst_func7(uint32_t inst){
 
 }
