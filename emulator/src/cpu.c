@@ -122,8 +122,56 @@ uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
 }
 
 uint32_t imm_gen(uint32_t inst) {
-    //fix me
-    return;
+    uint32_t imm;
+    uint32_t sign_bit = get_inst_bit(31);
+    opcode = get_inst_opcode(inst);
+    switch (opcode)
+    {
+    //I-type
+    case IR_TYPE:
+    case LOAD:
+    case JALR:
+        imm = get_inst_field(inst, 31, 20);
+        if (sign_bit) {
+            imm = imm | 0xFFFFF000;
+        }
+        break;
+    //S-type
+    case S_TYPE:
+        imm = (get_inst_field(inst, 31, 25) << 5) | get_inst_field(inst, 11, 7);
+        if(sign_bit) {
+            imm = imm | 0xFFFFF000;
+        }
+        break;
+    //B-type
+    case B_TYPE:
+        imm = (sign_bit << 12)
+             |(get_inst_field(inst, 30, 25) << 5)
+             |(get_inst_field(inst, 11, 8) << 1)
+             |(get_inst_bit(inst, 7) << 11);
+        if (sign_bit) {
+            imm = imm | FFFFE000;
+        }
+        break;
+    //U-type
+    case LUI:
+    case AUIPC:
+        imm = inst & 0xFFFFF000;
+        break;
+    //J-type
+    case JAL:
+        imm = (sign_bit << 20)
+             |(get_inst_field(inst, 30, 21) << 1)
+             |(get_inst_bit(inst, 20) << 11)
+             |(get_inst_field(inst, 19, 12) << 12);
+        if (sign_bit) {
+            imm = imm | 0xFFE00000;
+        }
+        break;
+    default:
+        break;
+    }
+    return imm;
 }
 
 void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
@@ -339,10 +387,21 @@ uint32_t get_inst_func7(uint32_t inst){
     return (inst >> 25) & 127;
 }
 
-uint32_t get_inst_bit(uint32_t inst, int idx){
+uint32_t get_inst_bit(uint32_t inst, int idx) {
     return (inst >> idx) & 1;
 }
-
+uint32_t get_inst_field(uint32_t inst, int msb, int lsb) {
+    int field_size = msb - lsb + 1;
+    uint32_t field_mask;
+    if (msb < lsb) {
+        printf("msb = %d\n", msb);
+        printf("lsb = %d\n", lsb);
+        printf("get_inst_field() msb should not small than lsb!!\n");
+        exit(EXIT_FAILURE);
+    }
+    field_mask = (1 << field_size) - 1;
+    return (inst >> lsb) & field_mask;
+}
 uint32_t set_pc(struct rv32i_cpu* cpu, uint32_t target_pc) {
     uint32_t target_pc;
     if((target_pc & 3) != 0) {
