@@ -118,6 +118,7 @@ uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
         if (wstrb & 4) memory[2] = data_ptr[2]; //0100 = 4
         if (wstrb & 8) memory[3] = data_ptr[3]; //1000 = 8
 }
+
 uint32_t imm_gen(uint32_t inst) {
     //fix me
     return;
@@ -125,14 +126,15 @@ uint32_t imm_gen(uint32_t inst) {
 
 void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
     uint32_t result;
-    uint32_t ra1 = (inst >> 15) & 31;
-    uint32_t ra2 = (inst >> 20) & 31;
-    uint32_t rd1 = get_gpr(cpu, ra1);
-    uint32_t rd2 = (alu_source) ? imm_gen(inst) : get_gpr(cpu, ra2);
-    uint32_t wa = (inst >> 7) & 31;
-    uint32_t func3 = (inst >> 12) & 8;
-    uint32_t func7_bit6 = (inst >> 30) & 1;
+    uint32_t rs1 = get_inst_rs1(inst);
+    uint32_t rs2 = get_inst_rs1(inst);
+    uint32_t rs1_data = get_gpr(cpu, rs1);
+    uint32_t rs2_data = (alu_source) ? imm_gen(inst) : get_gpr(cpu, rs2);
+    uint32_t rd = get_inst_rd(inst);
+    uint32_t func3 = get_inst_func3(inst);
+    uint32_t func7_bit6 = get_inst_bit(inst, 30);
     enum ALUOp alu_op;
+
     switch (func3)
     {
     case 0://ADD or SUB
@@ -158,13 +160,39 @@ void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
         exit(EXIT_FAILURE);
         break;
     }
-    result = alu(alu_op, rd1, rd2);
-    set_gpr(cpu, wa, result);
-    cpu->pc = cpu->pc + 0x4;
+    result = alu(alu_op, rs1_data, rs2_data);
+    set_gpr(cpu, rd, result);
 }
 
 void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
-
+    uint32_t func3 = get_inst_func3(inst);
+    uint32_t rs1 = get_inst_rs1(inst);
+    uint32_t rd = get_inst_rd(inst);
+    uint32_t rs1_data = get_gpr(cpu, rs1); 
+    uint32_t imm = imm_gen(inst);
+    uint32_t addr = rs1_data + imm;
+    uint32_t rd_data = mem_read(memory, addr);
+    uint16_t lhu_data = ;
+    int16_t lh_data = ;
+    int8_t lb_data = ;
+    uint8_t lbu_data = ;
+    //lw a1, 0(a0)
+    //sign extend
+    switch (func3)
+    {
+    //LB
+    case 0: 
+    //LH
+    case 1:
+    //LBU
+    case 4:
+    //LBU
+    case 5:   
+    default:
+        break;
+    }
+    set_gpr(cpu, rd, rd_data);
+    cpu->pc = cpu->pc + 0x4;
 }
 void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
 
@@ -183,25 +211,29 @@ void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst) {
 }
 
 uint32_t get_inst_opcode(uint32_t inst){
-
+    return inst & 127;
 }
 
 uint32_t get_inst_rs1(uint32_t inst){
-
+    return (inst >> 15) & 31;
 }
 
-uint32_t get_inst_rs2(uint32_t inst){
-
+uint32_t get_inst_rs2_shamt(uint32_t inst){
+    return (inst >> 20) & 31;
 }
 
-uint32_t get_inst_rd_shamt(uint32_t inst){
-
+uint32_t get_inst_rd(uint32_t inst){
+    return (inst >> 7) & 31;
 }
 
 uint32_t get_inst_func3(uint32_t inst){
-
+    return (inst >> 12) & 7;
 }
 
 uint32_t get_inst_func7(uint32_t inst){
+    return (inst >> 25) & 127;
+}
 
+uint32_t get_inst_bit(uint32_t inst, int idx){
+    return (inst >> idx) & 1;
 }
