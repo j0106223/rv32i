@@ -6,7 +6,7 @@ void run(struct rv32i_cpu* cpu, uint8_t* memory) {
 
     while(1) {
         //instruction fetch
-        inst = fetch_inst(memory, cpu->pc);
+        inst = fetch_inst(memory, get_pc(cpu));
         //decode
         opcode = inst & 127;
         switch (opcode)
@@ -129,12 +129,13 @@ uint32_t imm_gen(uint32_t inst) {
 void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
     uint32_t result;
     uint32_t rs1 = get_inst_rs1(inst);
-    uint32_t rs2 = get_inst_rs1(inst);
+    uint32_t rs2 = get_inst_rs2(inst);
     uint32_t rs1_data = get_gpr(cpu, rs1);
     uint32_t rs2_data = (alu_source) ? imm_gen(inst) : get_gpr(cpu, rs2);
     uint32_t rd = get_inst_rd(inst);
     uint32_t func3 = get_inst_func3(inst);
     uint32_t func7_bit6 = get_inst_bit(inst, 30);
+    uint32_t target_pc = get_pc(cpu) + 4;
     enum ALUOp alu_op;
 
     switch (func3)
@@ -164,6 +165,7 @@ void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
     }
     result = alu(alu_op, rs1_data, rs2_data);
     set_gpr(cpu, rd, result);
+    set_pc(cpu, target_pc);
 }
 
 void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
@@ -174,6 +176,7 @@ void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     uint32_t imm = imm_gen(inst);
     uint32_t addr = rs1_data + imm;
     uint32_t rd_data = mem_read(memory, addr);
+    uint32_t target_pc = get_pc(cpu) + 4;
     //sign extend or zero extend
     switch (func3)
     {
@@ -189,110 +192,127 @@ void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
         break;
     }
     set_gpr(cpu, rd, rd_data);
-    cpu->pc = cpu->pc + 0x4;
+    set_pc(cpu, target_pc);
 }
 void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     uint32_t rs1 = get_inst_rs1(inst);
-    uint32_t rs2 = get_inst_rs1(inst);
+    uint32_t rs2 = get_inst_rs2(inst);
     uint32_t func3 = get_inst_func3(inst);
     uint32_t rs1_data = get_gpr(cpu, rs1);
     uint32_t rs2_data = get_gpr(cpu, rs2); 
     uint32_t imm = imm_gen(inst);
     uint32_t addr = rs1_data + imm;
+    uint32_t target_pc = get_pc(cpu) + 4;
     //sw a0, offset(a1)
     switch (func3)
     {
     //SB
-    case 0: mem_write(memory,addr,rs2_data, 0x1);break;
+    case 0: mem_write(memory, addr, rs2_data, 0x1);break;
     //SH
-    case 1: mem_write(memory,addr,rs2_data, 0x3);break;
+    case 1: mem_write(memory, addr, rs2_data, 0x3);break;
     //SW
-    case 2: mem_write(memory,addr,rs2_data, 0xf);
+    case 2: mem_write(memory, addr, rs2_data, 0xf);
     
     default:
         break;
     }
-    cpu->pc = cpu->pc + 0x4;
+    set_pc(cpu, target_pc);
 }
 void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst){
     uint32_t rs1 = get_inst_rs1(inst);
-    uint32_t rs2 = get_inst_rs1(inst);
+    uint32_t rs2 = get_inst_rs2(inst);
     uint32_t func3 = get_inst_func3(inst);
     uint32_t rs1_data = get_gpr(cpu, rs1);
     uint32_t rs2_data = get_gpr(cpu, rs2); 
     uint32_t imm = imm_gen(inst);
+    uint32_t target_pc;
     switch(func3)
     {
         //BEQ
         case 0:
             if(rs1 == rs2) {
-                cpu->pc = cpu->pc + imm;
+                target_pc = get_pc(cpu) + imm;
             } else {
-                cpu->pc = cpu->pc + 0x4;
+                target_pc = get_pc(cpu) + 4;
             }
             break;
         //BNE
         case 1:
             if(rs1 != rs2) {
-                cpu->pc = cpu->pc + imm;
+                target_pc = get_pc(cpu) + imm;
             } else {
-                cpu->pc = cpu->pc + 0x4;
+                target_pc = get_pc(cpu) + 4;
             }
             break;
         //BLT
         case 4:
             if ((int32_t)rs1 < (int32_t)rs2) {
-                cpu->pc = cpu->pc + imm;
+                target_pc = get_pc(cpu) + imm;
             } else {
-                cpu->pc = cpu->pc + 0x4;
+                target_pc = get_pc(cpu) + 4;
             }
             break;
         //BGE
         case 5:
             if ((int32_t)rs1 >= (int32_t)rs2) {
-                cpu->pc = cpu->pc + imm;
+                target_pc = get_pc(cpu) + imm;
             } else {
-                cpu->pc = cpu->pc + 0x4;
+                target_pc = get_pc(cpu) + 4;
             }
             break;
         //BLTU
         case 6:
             if (rs1 < rs2) {
-                cpu->pc = cpu->pc + imm;
+                target_pc = get_pc(cpu) + imm;
             } else {
-                cpu->pc = cpu->pc + 0x4;
+                target_pc = get_pc(cpu) + 4;
             }
             break;
         //BGEU
         case 7:
             if (rs1 >= rs2) {
-                cpu->pc = cpu->pc + imm;
+                target_pc = get_pc(cpu) + imm;
             } else {
-                cpu->pc = cpu->pc + 0x4;
+                target_pc = get_pc(cpu) + 4;
             }
             break;
         default:
             break;
     }
+    set_pc(cpu, target_pc);
 }
 void EXE_LUI(struct rv32i_cpu* cpu, uint32_t inst) {
     uint32_t rd = get_inst_rd(inst);
     uint32_t imm = imm_gen(inst);
+    uint32_t target_pc = get_pc(cpu) + 4;
     set_gpr(cpu, rd, imm);
-    cpu->pc = cpu->pc + 0x4;
+    set_pc(cpu, target_pc);
 }
 void EXE_AUIPC(struct rv32i_cpu* cpu, uint32_t inst) {
     uint32_t rd = get_inst_rd(inst);
     uint32_t imm = imm_gen(inst);
-    uint32_t rd_data = imm + cpu->pc;
+    uint32_t rd_data = imm + get_pc(cpu);
+    uint32_t target_pc = get_pc(cpu) + 4;
     set_gpr(cpu, rd, rd_data);
-    cpu->pc = cpu->pc + 0x4;
+    set_pc(cpu, target_pc);
 }
 void EXE_JAL(struct rv32i_cpu* cpu, uint32_t inst) {
-
+    uint32_t rd = get_inst_rd(inst);
+    uint32_t imm = imm_gen(inst);
+    uint32_t rd_data = get_pc(cpu) + 4;
+    uint32_t target_pc = get_pc(cpu) + imm;
+    set_gpr(cpu, rd, rd_data);
+    set_pc(cpu, target_pc);
 }
 void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst) {
-
+    uint32_t rs1 = get_inst_rs1(inst);
+    uint32_t rd = get_inst_rd(inst);
+    uint32_t imm = imm_gen(inst);
+    uint32_t rd_data = get_pc(cpu) + 4;
+    uint32_t rs1_data = get_gpr(cpu, rs1);
+    uint32_t target_pc = rs1_data + imm;;
+    set_gpr(cpu, rd, rd_data);
+    set_pc(cpu, target_pc);
 }
 
 uint32_t get_inst_opcode(uint32_t inst){
@@ -303,7 +323,7 @@ uint32_t get_inst_rs1(uint32_t inst){
     return (inst >> 15) & 31;
 }
 
-uint32_t get_inst_rs2_shamt(uint32_t inst){
+uint32_t get_inst_rs2(uint32_t inst){
     return (inst >> 20) & 31;
 }
 
@@ -321,4 +341,22 @@ uint32_t get_inst_func7(uint32_t inst){
 
 uint32_t get_inst_bit(uint32_t inst, int idx){
     return (inst >> idx) & 1;
+}
+
+uint32_t set_pc(struct rv32i_cpu* cpu, uint32_t target_pc) {
+    uint32_t target_pc;
+    if((target_pc & 3) != 0) {
+        printf("target pc = 0x%x\n", target_pc);
+        printf("misalign!!\n");
+        exit(EXIT_FAILURE);
+    }
+    return target_pc;
+}
+uint32_t get_pc(struct rv32i_cpu* cpu) {
+    if ((cpu->pc & 3) != 0) {
+        printf("current pc = 0x%x\n", cpu->pc);
+        printf("misalign!!\n");
+        exit(EXIT_FAILURE);
+    }
+    return cpu->pc;
 }
