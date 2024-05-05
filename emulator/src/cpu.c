@@ -172,22 +172,17 @@ void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     uint32_t imm = imm_gen(inst);
     uint32_t addr = rs1_data + imm;
     uint32_t rd_data = mem_read(memory, addr);
-    uint16_t lhu_data = ;
-    int16_t lh_data = ;
-    int8_t lb_data = ;
-    uint8_t lbu_data = ;
-    //lw a1, 0(a0)
-    //sign extend
+    //sign extend or zero extend
     switch (func3)
     {
     //LB
-    case 0: 
+    case 0: rd_data = (int8_t)(rd_data & 0xF); break;
     //LH
-    case 1:
+    case 1: rd_data = (int16_t)(rd_data & 0xFF);  break;
     //LBU
-    case 4:
-    //LBU
-    case 5:   
+    case 4: rd_data = rd_data & 0xF; break;
+    //LHU
+    case 5: rd_data = rd_data & 0xFF;  break;
     default:
         break;
     }
@@ -195,7 +190,23 @@ void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     cpu->pc = cpu->pc + 0x4;
 }
 void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
-
+    uint32_t rs1 = get_inst_rs1(inst);
+    uint32_t rs2 = get_inst_rs1(inst);
+    uint32_t func3 = get_inst_func3(inst);
+    uint32_t rs1_data = get_gpr(cpu, rs1);
+    uint32_t rs2_data = get_gpr(cpu, rs2); 
+    uint32_t imm = imm_gen(inst);
+    uint32_t addr = rs1_data + imm;
+    //sw a0, offset(a1)
+    switch (func3)
+    {
+    case 0:break;
+    case 1:break;
+    case 2:mem_write(memory,addr,rs2_data, 0xf);
+    
+    default:
+        break;
+    }
 }
 void EXE_LUI(struct rv32i_cpu* cpu, uint32_t inst) {
 
