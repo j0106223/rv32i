@@ -18,6 +18,8 @@ void run(struct rv32i_cpu* cpu, uint8_t* memory) {
         case S_TYPE:
             /* code */
             break;
+        case B_TYPE:
+            break
         case LUI:
             /* code */
             break;
@@ -200,19 +202,91 @@ void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     //sw a0, offset(a1)
     switch (func3)
     {
-    case 0:break;
-    case 1:break;
-    case 2:mem_write(memory,addr,rs2_data, 0xf);
+    //SB
+    case 0: mem_write(memory,addr,rs2_data, 0x1);break;
+    //SH
+    case 1: mem_write(memory,addr,rs2_data, 0x3);break;
+    //SW
+    case 2: mem_write(memory,addr,rs2_data, 0xf);
     
     default:
         break;
     }
+    cpu->pc = cpu->pc + 0x4;
+}
+void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst){
+    uint32_t rs1 = get_inst_rs1(inst);
+    uint32_t rs2 = get_inst_rs1(inst);
+    uint32_t func3 = get_inst_func3(inst);
+    uint32_t rs1_data = get_gpr(cpu, rs1);
+    uint32_t rs2_data = get_gpr(cpu, rs2); 
+    uint32_t imm = imm_gen(inst);
+    switch(func3)
+    {
+        //BEQ
+        case 0:
+            if(rs1 == rs2) {
+                cpu->pc = cpu->pc + imm;
+            } else {
+                cpu->pc = cpu->pc + 0x4;
+            }
+            break;
+        //BNE
+        case 1:
+            if(rs1 != rs2) {
+                cpu->pc = cpu->pc + imm;
+            } else {
+                cpu->pc = cpu->pc + 0x4;
+            }
+            break;
+        //BLT
+        case 4:
+            if ((int32_t)rs1 < (int32_t)rs2) {
+                cpu->pc = cpu->pc + imm;
+            } else {
+                cpu->pc = cpu->pc + 0x4;
+            }
+            break;
+        //BGE
+        case 5:
+            if ((int32_t)rs1 >= (int32_t)rs2) {
+                cpu->pc = cpu->pc + imm;
+            } else {
+                cpu->pc = cpu->pc + 0x4;
+            }
+            break;
+        //BLTU
+        case 6:
+            if (rs1 < rs2) {
+                cpu->pc = cpu->pc + imm;
+            } else {
+                cpu->pc = cpu->pc + 0x4;
+            }
+            break;
+        //BGEU
+        case 7:
+            if (rs1 >= rs2) {
+                cpu->pc = cpu->pc + imm;
+            } else {
+                cpu->pc = cpu->pc + 0x4;
+            }
+            break;
+        default:
+            break;
+    }
 }
 void EXE_LUI(struct rv32i_cpu* cpu, uint32_t inst) {
-
+    uint32_t rd = get_inst_rd(inst);
+    uint32_t imm = imm_gen(inst);
+    set_gpr(cpu, rd, imm);
+    cpu->pc = cpu->pc + 0x4;
 }
 void EXE_AUIPC(struct rv32i_cpu* cpu, uint32_t inst) {
-
+    uint32_t rd = get_inst_rd(inst);
+    uint32_t imm = imm_gen(inst);
+    uint32_t rd_data = imm + cpu->pc;
+    set_gpr(cpu, rd, rd_data);
+    cpu->pc = cpu->pc + 0x4;
 }
 void EXE_JAL(struct rv32i_cpu* cpu, uint32_t inst) {
 
