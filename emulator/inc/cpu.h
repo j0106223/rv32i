@@ -28,3 +28,5 @@ enum ALUOp {
     OR,
     AND
 };
+
+void run(struct rv32i_cpu* cpu, uint8_t* memory);

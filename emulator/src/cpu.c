@@ -1,5 +1,32 @@
 #include "cpu.h"
 #include <stdlib.h>
+uint32_t get_pc(struct rv32i_cpu* cpu);
+uint32_t set_pc(struct rv32i_cpu* cpu, uint32_t target_pc); 
+uint32_t get_inst_field(uint32_t inst, int msb, int lsb);
+uint32_t get_inst_bit(uint32_t inst, int idx);
+uint32_t get_inst_opcode(uint32_t inst);
+uint32_t get_inst_rs1(uint32_t inst);
+uint32_t get_inst_rs2(uint32_t inst);
+uint32_t get_inst_rd(uint32_t inst);
+uint32_t get_inst_func3(uint32_t inst);
+uint32_t get_inst_func7(uint32_t inst);
+uint32_t imm_gen(uint32_t inst);
+void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value);
+uint32_t mem_read(uint8_t* memory, uint32_t addr);
+uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb);
+uint32_t get_gpr(struct rv32i_cpu* cpu, int gpr_idx);
+void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst);
+void EXE_AUIPC(struct rv32i_cpu* cpu, uint32_t inst); 
+void EXE_LUI(struct rv32i_cpu* cpu, uint32_t inst);
+void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst); 
+void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory);
+void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory);
+void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source);
+uint32_t alu(enum ALUOp alu_op, uint32_t a, uint32_t b);
+uint32_t fetch_inst(uint8_t* memory, uint32_t addr);
+
+
+
 void run(struct rv32i_cpu* cpu, uint8_t* memory) {
     uint32_t inst;
     uint32_t opcode;
@@ -7,61 +34,21 @@ void run(struct rv32i_cpu* cpu, uint8_t* memory) {
     while(1) {
         //instruction fetch
         inst = fetch_inst(memory, get_pc(cpu));
-        //decode
         opcode = inst & 127;
         switch (opcode)
         {
-        case R_TYPE: EXE_R_TYPE(cpu, inst, 0); break;
-        case IR_TYPE: EXE_R_TYPE(cpu, inst, 1); break;
-        case LOAD:
-            break;
-        case S_TYPE:
-            /* code */
-            break;
-        case B_TYPE:
-            break
-        case LUI:
-            /* code */
-            break;
-        case AUIPC:
-            /* code */
-            break;
-        case JAL:
-            /* code */
-            break;
-        case JALR:
-            /* code */
-            break;
+        case R_TYPE : EXE_R_TYPE(cpu, inst, 0);      break;
+        case IR_TYPE: EXE_R_TYPE(cpu, inst, 1);      break;
+        case LOAD   : EXE_LOAD(cpu, inst, memory);   break;
+        case S_TYPE : EXE_S_TYPE(cpu, inst, memory); break;
+        case B_TYPE : EXE_B_TYPE(cpu, inst);         break;
+        case LUI    : EXE_LUI(cpu, inst);            break;
+        case AUIPC  : EXE_AUIPC(cpu, inst);          break;
+        case JAL    : EXE_JAL(cpu, inst);            break;
+        case JALR   : EXE_JALR(cpu, inst);           break;
         default:
             break;
         }
-        ra1 = (inst >> 15) & 31;
-        ra2 = (inst >> 20) & 31;
-        rd1 = get_gpr(cpu, ra1);
-        rd2 = get_gpr(cpu, ra2);
-        imm = imm_gen(inst);
-        //decode for control signals
-        switch (opcode)
-        {
-        case:
-            break;
-        
-        default:
-            break;
-        }
-        //exe::alu
-        rd2 = ALUSrc ? imm : rd2;
-        //result = alu(ALUOp, rd1, ra2);
-        //mem access
-        
-        //write back to register
-
-        //update pc
-        /*
-        if(debug_mode){
-            print all register and pc 
-        }
-        */
     }
 }
 
@@ -72,10 +59,6 @@ uint32_t fetch_inst(uint8_t* memory, uint32_t addr) {
         exit(EXIT_FAILURE);
     }
     return ((uint32_t *)memory)[addr];
-}
-
-uint32_t decode_inst(uint32_t inst) {
-
 }
 
 uint32_t alu(enum ALUOp alu_op, uint32_t a, uint32_t b) {
@@ -96,82 +79,6 @@ uint32_t alu(enum ALUOp alu_op, uint32_t a, uint32_t b) {
         break;
     }
     return result;
-}
-
-uint32_t get_gpr(struct rv32i_cpu* cpu, int gpr_idx) {
-    if (gpr_idx == 0) {
-        return 0;
-    }
-    return cpu->x[gpr_idx];
-}
-void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value) {
-    if (gpr_idx > 0) {
-        cpu->x[gpr_idx] = value;
-    }
-}
-
-uint32_t mem_read(uint8_t* memory, uint32_t addr){
-    return ((uint32_t *)memory)[addr];
-}
-uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
-        uint8_t* data_ptr = &data;
-        if (wstrb & 1) memory[0] = data_ptr[0]; //0001 = 1
-        if (wstrb & 2) memory[1] = data_ptr[1]; //0010 = 2
-        if (wstrb & 4) memory[2] = data_ptr[2]; //0100 = 4
-        if (wstrb & 8) memory[3] = data_ptr[3]; //1000 = 8
-}
-
-uint32_t imm_gen(uint32_t inst) {
-    uint32_t imm;
-    uint32_t sign_bit = get_inst_bit(31);
-    opcode = get_inst_opcode(inst);
-    switch (opcode)
-    {
-    //I-type
-    case IR_TYPE:
-    case LOAD:
-    case JALR:
-        imm = get_inst_field(inst, 31, 20);
-        if (sign_bit) {
-            imm = imm | 0xFFFFF000;
-        }
-        break;
-    //S-type
-    case S_TYPE:
-        imm = (get_inst_field(inst, 31, 25) << 5) | get_inst_field(inst, 11, 7);
-        if(sign_bit) {
-            imm = imm | 0xFFFFF000;
-        }
-        break;
-    //B-type
-    case B_TYPE:
-        imm = (sign_bit << 12)
-             |(get_inst_field(inst, 30, 25) << 5)
-             |(get_inst_field(inst, 11, 8) << 1)
-             |(get_inst_bit(inst, 7) << 11);
-        if (sign_bit) {
-            imm = imm | FFFFE000;
-        }
-        break;
-    //U-type
-    case LUI:
-    case AUIPC:
-        imm = inst & 0xFFFFF000;
-        break;
-    //J-type
-    case JAL:
-        imm = (sign_bit << 20)
-             |(get_inst_field(inst, 30, 21) << 1)
-             |(get_inst_bit(inst, 20) << 11)
-             |(get_inst_field(inst, 19, 12) << 12);
-        if (sign_bit) {
-            imm = imm | 0xFFE00000;
-        }
-        break;
-    default:
-        break;
-    }
-    return imm;
 }
 
 void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
@@ -266,7 +173,7 @@ void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     }
     set_pc(cpu, target_pc);
 }
-void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst){
+void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
     uint32_t rs1 = get_inst_rs1(inst);
     uint32_t rs2 = get_inst_rs2(inst);
     uint32_t func3 = get_inst_func3(inst);
@@ -352,6 +259,7 @@ void EXE_JAL(struct rv32i_cpu* cpu, uint32_t inst) {
     set_gpr(cpu, rd, rd_data);
     set_pc(cpu, target_pc);
 }
+
 void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst) {
     uint32_t rs1 = get_inst_rs1(inst);
     uint32_t rd = get_inst_rd(inst);
@@ -361,6 +269,83 @@ void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst) {
     uint32_t target_pc = rs1_data + imm;;
     set_gpr(cpu, rd, rd_data);
     set_pc(cpu, target_pc);
+}
+
+uint32_t get_gpr(struct rv32i_cpu* cpu, int gpr_idx) {
+    if (gpr_idx == 0) {
+        return 0;
+    }
+    return cpu->x[gpr_idx];
+}
+
+void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value) {
+    if (gpr_idx > 0) {
+        cpu->x[gpr_idx] = value;
+    }
+}
+
+uint32_t mem_read(uint8_t* memory, uint32_t addr){
+    return ((uint32_t *)memory)[addr];
+}
+
+uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
+        uint8_t* data_ptr = &data;
+        if (wstrb & 1) memory[0] = data_ptr[0]; //0001 = 1
+        if (wstrb & 2) memory[1] = data_ptr[1]; //0010 = 2
+        if (wstrb & 4) memory[2] = data_ptr[2]; //0100 = 4
+        if (wstrb & 8) memory[3] = data_ptr[3]; //1000 = 8
+}
+
+uint32_t imm_gen(uint32_t inst) {
+    uint32_t imm;
+    uint32_t sign_bit = get_inst_bit(inst, 31);
+    uint32_t opcode = get_inst_opcode(inst);
+    switch (opcode)
+    {
+    //I-type
+    case IR_TYPE:
+    case LOAD:
+    case JALR:
+        imm = get_inst_field(inst, 31, 20);
+        if (sign_bit) {
+            imm = imm | 0xFFFFF000;
+        }
+        break;
+    //S-type
+    case S_TYPE:
+        imm = (get_inst_field(inst, 31, 25) << 5) | get_inst_field(inst, 11, 7);
+        if(sign_bit) {
+            imm = imm | 0xFFFFF000;
+        }
+        break;
+    //B-type
+    case B_TYPE:
+        imm = (get_inst_field(inst, 30, 25) << 5)
+             |(get_inst_field(inst, 11, 8) << 1)
+             |(get_inst_bit(inst, 7) << 11);
+
+        if (sign_bit) {
+            imm = imm | 0xFFFFF000;
+        }
+        break;
+    //U-type
+    case LUI:
+    case AUIPC:
+        imm = inst & 0xFFFFF000;
+        break;
+    //J-type
+    case JAL:
+        imm = (get_inst_field(inst, 30, 21) << 1)
+             |(get_inst_bit(inst, 20) << 11)
+             |(get_inst_field(inst, 19, 12) << 12);
+        if (sign_bit) {
+            imm = imm | 0xFFF00000;
+        }
+        break;
+    default:
+        break;
+    }
+    return imm;
 }
 
 uint32_t get_inst_opcode(uint32_t inst){
