@@ -1,6 +1,6 @@
-CC = riscv64-unknown-elf-gcc
-DUMP = riscv64-unknown-elf-objdump
-COPY = riscv64-unknown-elf-objcopy
+CC = riscv32-unknown-elf-gcc
+DUMP = riscv32-unknown-elf-objdump
+COPY = riscv32-unknown-elf-objcopy
 dump.txt:a.elf
 	$(DUMP) -D a.elf > dump.txt
 	$(COPY) -O verilog a.elf a.hex 

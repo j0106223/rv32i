@@ -39,9 +39,9 @@ Disassembly of section .text:
   7c:	0040006f          	j	80 <main>
 
 00000080 <main>:
-  80:	fe010113          	addi	sp,sp,-32
-  84:	00812e23          	sw	s0,28(sp)
-  88:	02010413          	addi	s0,sp,32
+  80:	fd010113          	addi	sp,sp,-48
+  84:	02812623          	sw	s0,44(sp)
+  88:	03010413          	addi	s0,sp,48
   8c:	00a00793          	li	a5,10
   90:	fef42623          	sw	a5,-20(s0)
   94:	01400793          	li	a5,20
@@ -50,10 +50,23 @@ Disassembly of section .text:
   a0:	fe842783          	lw	a5,-24(s0)
   a4:	00f707b3          	add	a5,a4,a5
   a8:	fef42223          	sw	a5,-28(s0)
-  ac:	00000013          	nop
-  b0:	01c12403          	lw	s0,28(sp)
-  b4:	02010113          	addi	sp,sp,32
-  b8:	00008067          	ret
+  ac:	fec42703          	lw	a4,-20(s0)
+  b0:	fe842783          	lw	a5,-24(s0)
+  b4:	40f707b3          	sub	a5,a4,a5
+  b8:	fef42023          	sw	a5,-32(s0)
+  bc:	fec42703          	lw	a4,-20(s0)
+  c0:	fe842783          	lw	a5,-24(s0)
+  c4:	00f767b3          	or	a5,a4,a5
+  c8:	fcf42e23          	sw	a5,-36(s0)
+  cc:	fec42703          	lw	a4,-20(s0)
+  d0:	fe842783          	lw	a5,-24(s0)
+  d4:	00f777b3          	and	a5,a4,a5
+  d8:	fcf42c23          	sw	a5,-40(s0)
+  dc:	00000793          	li	a5,0
+  e0:	00078513          	mv	a0,a5
+  e4:	02c12403          	lw	s0,44(sp)
+  e8:	03010113          	addi	sp,sp,48
+  ec:	00008067          	ret
 
 Disassembly of section .riscv.attributes:
 

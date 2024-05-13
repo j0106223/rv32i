@@ -1,7 +1,10 @@
-#include "cpu.h"
+#include <stdio.h>
 #include <stdlib.h>
+#include "cpu.h"
+
+
 uint32_t get_pc(struct rv32i_cpu* cpu);
-uint32_t set_pc(struct rv32i_cpu* cpu, uint32_t target_pc); 
+void set_pc(struct rv32i_cpu* cpu, uint32_t target_pc); 
 uint32_t get_inst_field(uint32_t inst, int msb, int lsb);
 uint32_t get_inst_bit(uint32_t inst, int idx);
 uint32_t get_inst_opcode(uint32_t inst);
@@ -15,6 +18,7 @@ void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value);
 uint32_t mem_read(uint8_t* memory, uint32_t addr);
 uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb);
 uint32_t get_gpr(struct rv32i_cpu* cpu, int gpr_idx);
+void EXE_JAL(struct rv32i_cpu* cpu, uint32_t inst);
 void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst);
 void EXE_AUIPC(struct rv32i_cpu* cpu, uint32_t inst); 
 void EXE_LUI(struct rv32i_cpu* cpu, uint32_t inst);
@@ -26,14 +30,19 @@ uint32_t alu(enum ALUOp alu_op, uint32_t a, uint32_t b);
 uint32_t fetch_inst(uint8_t* memory, uint32_t addr);
 
 
-
+int cnt = 0;
+char* regname[32] = {"zero","","",,,,,,,,,,,,,,,,,,,,,};
 void run(struct rv32i_cpu* cpu, uint8_t* memory) {
     uint32_t inst;
     uint32_t opcode;
 
     while(1) {
+        if(cnt++ > 60){
+            return;
+        }
         //instruction fetch
         inst = fetch_inst(memory, get_pc(cpu));
+        printf("pc = 0x%08x: inst = 0x%08x\n",cpu->pc, inst);
         opcode = inst & 127;
         switch (opcode)
         {
@@ -49,16 +58,20 @@ void run(struct rv32i_cpu* cpu, uint8_t* memory) {
         default:
             break;
         }
+        for (int i = 0; i < 32; i++) {
+            printf("reg[%0d] = 0x%08x\n",i,get_gpr(cpu, i));
+        }
     }
 }
 
 uint32_t fetch_inst(uint8_t* memory, uint32_t addr) {
+    //printf("addr = 0x%x\n",addr);
     if (addr & 3 != 0) {
         printf("addr = 0x%x\n",addr);
         printf("misalign!!\n");
         exit(EXIT_FAILURE);
     }
-    return ((uint32_t *)memory)[addr];
+    return mem_read(memory, addr);
 }
 
 uint32_t alu(enum ALUOp alu_op, uint32_t a, uint32_t b) {
@@ -185,7 +198,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
     {
         //BEQ
         case 0:
-            if(rs1 == rs2) {
+            if(rs1_data == rs2_data) {
                 target_pc = get_pc(cpu) + imm;
             } else {
                 target_pc = get_pc(cpu) + 4;
@@ -193,7 +206,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
             break;
         //BNE
         case 1:
-            if(rs1 != rs2) {
+            if(rs1_data != rs2_data) {
                 target_pc = get_pc(cpu) + imm;
             } else {
                 target_pc = get_pc(cpu) + 4;
@@ -201,7 +214,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
             break;
         //BLT
         case 4:
-            if ((int32_t)rs1 < (int32_t)rs2) {
+            if ((int32_t)rs1_data < (int32_t)rs2_data) {
                 target_pc = get_pc(cpu) + imm;
             } else {
                 target_pc = get_pc(cpu) + 4;
@@ -209,7 +222,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
             break;
         //BGE
         case 5:
-            if ((int32_t)rs1 >= (int32_t)rs2) {
+            if ((int32_t)rs1_data >= (int32_t)rs2_data) {
                 target_pc = get_pc(cpu) + imm;
             } else {
                 target_pc = get_pc(cpu) + 4;
@@ -217,7 +230,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
             break;
         //BLTU
         case 6:
-            if (rs1 < rs2) {
+            if (rs1_data < rs2_data) {
                 target_pc = get_pc(cpu) + imm;
             } else {
                 target_pc = get_pc(cpu) + 4;
@@ -225,7 +238,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
             break;
         //BGEU
         case 7:
-            if (rs1 >= rs2) {
+            if (rs1_data >= rs2_data) {
                 target_pc = get_pc(cpu) + imm;
             } else {
                 target_pc = get_pc(cpu) + 4;
@@ -285,11 +298,11 @@ void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value) {
 }
 
 uint32_t mem_read(uint8_t* memory, uint32_t addr){
-    return ((uint32_t *)memory)[addr];
+    return *((uint32_t *)(memory + addr));
 }
 
 uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
-        uint8_t* data_ptr = &data;
+        uint8_t* data_ptr = (uint8_t *)&data;
         if (wstrb & 1) memory[0] = data_ptr[0]; //0001 = 1
         if (wstrb & 2) memory[1] = data_ptr[1]; //0010 = 2
         if (wstrb & 4) memory[2] = data_ptr[2]; //0100 = 4
@@ -387,14 +400,13 @@ uint32_t get_inst_field(uint32_t inst, int msb, int lsb) {
     field_mask = (1 << field_size) - 1;
     return (inst >> lsb) & field_mask;
 }
-uint32_t set_pc(struct rv32i_cpu* cpu, uint32_t target_pc) {
-    uint32_t target_pc;
+void set_pc(struct rv32i_cpu* cpu, uint32_t target_pc) {
     if((target_pc & 3) != 0) {
         printf("target pc = 0x%x\n", target_pc);
         printf("misalign!!\n");
         exit(EXIT_FAILURE);
     }
-    return target_pc;
+    cpu->pc = target_pc;
 }
 uint32_t get_pc(struct rv32i_cpu* cpu) {
     if ((cpu->pc & 3) != 0) {

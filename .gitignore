@@ -1,4 +1,5 @@
 *.out
+*.elf
 *.vcd
 *.log
 *.vvp
