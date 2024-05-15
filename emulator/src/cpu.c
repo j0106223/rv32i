@@ -31,18 +31,31 @@ uint32_t fetch_inst(uint8_t* memory, uint32_t addr);
 
 
 int cnt = 0;
-char* regname[32] = {"zero","","",,,,,,,,,,,,,,,,,,,,,};
+//riscv register calling convention
+const char* reg_name[32] = {
+            "zero",
+            "ra",
+            "sp",
+            "gp",
+            "tp",
+            "t0","t1","t2",
+            "s0",
+            "s1",
+            "a0","a1","a2","a3","a4","a5","a6","a7",
+            "s2","s3","s4","s5","s6","s7","s8","s9","s10","s11",
+            "t3","t4","t5","t6"
+        };
 void run(struct rv32i_cpu* cpu, uint8_t* memory) {
     uint32_t inst;
     uint32_t opcode;
 
     while(1) {
-        if(cnt++ > 60){
+        if(cnt++ > 80){
             return;
         }
         //instruction fetch
         inst = fetch_inst(memory, get_pc(cpu));
-        printf("pc = 0x%08x: inst = 0x%08x\n",cpu->pc, inst);
+        printf("\npc = 0x%08x: inst = 0x%08x\t",cpu->pc, inst);
         opcode = inst & 127;
         switch (opcode)
         {
@@ -58,14 +71,10 @@ void run(struct rv32i_cpu* cpu, uint8_t* memory) {
         default:
             break;
         }
-        for (int i = 0; i < 32; i++) {
-            printf("reg[%0d] = 0x%08x\n",i,get_gpr(cpu, i));
-        }
     }
 }
 
 uint32_t fetch_inst(uint8_t* memory, uint32_t addr) {
-    //printf("addr = 0x%x\n",addr);
     if (addr & 3 != 0) {
         printf("addr = 0x%x\n",addr);
         printf("misalign!!\n");
@@ -78,17 +87,29 @@ uint32_t alu(enum ALUOp alu_op, uint32_t a, uint32_t b) {
     uint32_t result;
     switch (alu_op)
     {
-    case ADD:  result = a + b;  break;
-    case SUB:  result = a - b;  break;
-    case SLL:  result = a << b; break;
-    case SLT:  result = (((int32_t)a) < ((int32_t)b));break;
-    case SLTU: result = (a < b);break;
-    case XOR:  result = a ^ b;  break;
-    case SRL:  result = a >> b; break;
-    case SRA:  result = ((int32_t)a) >> b;break;
-    case OR:   result = a | b;  break;
-    case AND:  result = a & b;  break;
+    case ADD:  result = a + b;
+        break;
+    case SUB:  result = a - b;
+        break;
+    case SLL:  result = a << (b & 31);//shamt is 5-bit
+        break;
+    case SLT:  result = (((int32_t)a) < ((int32_t)b));
+        break;
+    case SLTU: result = (a < b);
+        break;
+    case XOR:  result = a ^ b;
+        break;
+    case SRL:  result = a >> (b & 31);//shamt is 5-bit
+        break;
+    case SRA:  result = ((int32_t)a) >> (b & 31);//shamt is 5-bit
+        break;
+    case OR:   result = a | b;
+        break;
+    case AND:  result = a & b;
+        break;
     default:
+        printf("not support aluop %d", alu_op);
+        exit(EXIT_FAILURE);
         break;
     }
     return result;
@@ -109,7 +130,7 @@ void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
     switch (func3)
     {
     case 0://ADD or SUB
-        if (func7_bit6) 
+        if (func7_bit6 && !alu_source)
             alu_op = SUB;
         else
             alu_op = ADD;
@@ -152,11 +173,15 @@ void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     case 0: rd_data = (int8_t)(rd_data & 0xF); break;
     //LH
     case 1: rd_data = (int16_t)(rd_data & 0xFF);  break;
+    //LW
+    case 2: break;
     //LBU
     case 4: rd_data = rd_data & 0xF; break;
     //LHU
     case 5: rd_data = rd_data & 0xFF;  break;
     default:
+        printf("Load-Type decode error func3 = %x", func3);
+        exit(EXIT_FAILURE);
         break;
     }
     set_gpr(cpu, rd, rd_data);
@@ -175,13 +200,15 @@ void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     switch (func3)
     {
     //SB
-    case 0: mem_write(memory, addr, rs2_data, 0x1);break;
+    case 0: mem_write(memory, addr, rs2_data, 0x1); break;
     //SH
-    case 1: mem_write(memory, addr, rs2_data, 0x3);break;
+    case 1: mem_write(memory, addr, rs2_data, 0x3); break;
     //SW
-    case 2: mem_write(memory, addr, rs2_data, 0xf);
+    case 2: mem_write(memory, addr, rs2_data, 0xf); break;
     
     default:
+        printf("S-Type decode error func3 = %x", func3);
+        exit(EXIT_FAILURE);
         break;
     }
     set_pc(cpu, target_pc);
@@ -295,6 +322,8 @@ void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value) {
     if (gpr_idx > 0) {
         cpu->x[gpr_idx] = value;
     }
+    printf("%s = %d\n", reg_name[gpr_idx], (int)get_gpr(cpu, gpr_idx));
+    //printf("%s = 0x%08x\n", reg_name[gpr_idx], get_gpr(cpu, gpr_idx));
 }
 
 uint32_t mem_read(uint8_t* memory, uint32_t addr){
@@ -303,10 +332,12 @@ uint32_t mem_read(uint8_t* memory, uint32_t addr){
 
 uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
         uint8_t* data_ptr = (uint8_t *)&data;
-        if (wstrb & 1) memory[0] = data_ptr[0]; //0001 = 1
-        if (wstrb & 2) memory[1] = data_ptr[1]; //0010 = 2
-        if (wstrb & 4) memory[2] = data_ptr[2]; //0100 = 4
-        if (wstrb & 8) memory[3] = data_ptr[3]; //1000 = 8
+
+        if (wstrb & 1) memory[addr]   = data_ptr[0]; //0001 = 1
+        if (wstrb & 2) memory[addr+1] = data_ptr[1]; //0010 = 2
+        if (wstrb & 4) memory[addr+2] = data_ptr[2]; //0100 = 4
+        if (wstrb & 8) memory[addr+3] = data_ptr[3]; //1000 = 8
+        printf("memory update addr: 0x%08x, data = 0x%08x",addr, data);
 }
 
 uint32_t imm_gen(uint32_t inst) {

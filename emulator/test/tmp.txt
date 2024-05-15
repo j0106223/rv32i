@@ -1,115 +1,155 @@
 
-pc = 0x00000000: inst = 0x000000b3	ra = 0x00000000
+pc = 0x00000000: inst = 0x000000b3	ra = 0
 
-pc = 0x00000004: inst = 0x00000133	sp = 0x00000000
+pc = 0x00000004: inst = 0x00000133	sp = 0
 
-pc = 0x00000008: inst = 0x000001b3	gp = 0x00000000
+pc = 0x00000008: inst = 0x000001b3	gp = 0
 
-pc = 0x0000000c: inst = 0x00000233	tp = 0x00000000
+pc = 0x0000000c: inst = 0x00000233	tp = 0
 
-pc = 0x00000010: inst = 0x000002b3	t0 = 0x00000000
+pc = 0x00000010: inst = 0x000002b3	t0 = 0
 
-pc = 0x00000014: inst = 0x00000333	t1 = 0x00000000
+pc = 0x00000014: inst = 0x00000333	t1 = 0
 
-pc = 0x00000018: inst = 0x000003b3	t2 = 0x00000000
+pc = 0x00000018: inst = 0x000003b3	t2 = 0
 
-pc = 0x0000001c: inst = 0x00000433	s0 = 0x00000000
+pc = 0x0000001c: inst = 0x00000433	s0 = 0
 
-pc = 0x00000020: inst = 0x000004b3	s1 = 0x00000000
+pc = 0x00000020: inst = 0x000004b3	s1 = 0
 
-pc = 0x00000024: inst = 0x00000533	a0 = 0x00000000
+pc = 0x00000024: inst = 0x00000533	a0 = 0
 
-pc = 0x00000028: inst = 0x000005b3	a1 = 0x00000000
+pc = 0x00000028: inst = 0x000005b3	a1 = 0
 
-pc = 0x0000002c: inst = 0x00000633	a2 = 0x00000000
+pc = 0x0000002c: inst = 0x00000633	a2 = 0
 
-pc = 0x00000030: inst = 0x000006b3	a3 = 0x00000000
+pc = 0x00000030: inst = 0x000006b3	a3 = 0
 
-pc = 0x00000034: inst = 0x00000733	a4 = 0x00000000
+pc = 0x00000034: inst = 0x00000733	a4 = 0
 
-pc = 0x00000038: inst = 0x000007b3	a5 = 0x00000000
+pc = 0x00000038: inst = 0x000007b3	a5 = 0
 
-pc = 0x0000003c: inst = 0x00000833	a6 = 0x00000000
+pc = 0x0000003c: inst = 0x00000833	a6 = 0
 
-pc = 0x00000040: inst = 0x000008b3	a7 = 0x00000000
+pc = 0x00000040: inst = 0x000008b3	a7 = 0
 
-pc = 0x00000044: inst = 0x00000933	s2 = 0x00000000
+pc = 0x00000044: inst = 0x00000933	s2 = 0
 
-pc = 0x00000048: inst = 0x000009b3	s3 = 0x00000000
+pc = 0x00000048: inst = 0x000009b3	s3 = 0
 
-pc = 0x0000004c: inst = 0x00000a33	s4 = 0x00000000
+pc = 0x0000004c: inst = 0x00000a33	s4 = 0
 
-pc = 0x00000050: inst = 0x00000ab3	s5 = 0x00000000
+pc = 0x00000050: inst = 0x00000ab3	s5 = 0
 
-pc = 0x00000054: inst = 0x00000b33	s6 = 0x00000000
+pc = 0x00000054: inst = 0x00000b33	s6 = 0
 
-pc = 0x00000058: inst = 0x00000bb3	s7 = 0x00000000
+pc = 0x00000058: inst = 0x00000bb3	s7 = 0
 
-pc = 0x0000005c: inst = 0x00000c33	s8 = 0x00000000
+pc = 0x0000005c: inst = 0x00000c33	s8 = 0
 
-pc = 0x00000060: inst = 0x00000cb3	s9 = 0x00000000
+pc = 0x00000060: inst = 0x00000cb3	s9 = 0
 
-pc = 0x00000064: inst = 0x00000d33	s10 = 0x00000000
+pc = 0x00000064: inst = 0x00000d33	s10 = 0
 
-pc = 0x00000068: inst = 0x00000db3	s11 = 0x00000000
+pc = 0x00000068: inst = 0x00000db3	s11 = 0
 
-pc = 0x0000006c: inst = 0x00000e33	t3 = 0x00000000
+pc = 0x0000006c: inst = 0x00000e33	t3 = 0
 
-pc = 0x00000070: inst = 0x00000eb3	t4 = 0x00000000
+pc = 0x00000070: inst = 0x00000eb3	t4 = 0
 
-pc = 0x00000074: inst = 0x00000f33	t5 = 0x00000000
+pc = 0x00000074: inst = 0x00000f33	t5 = 0
 
-pc = 0x00000078: inst = 0x00000fb3	t6 = 0x00000000
+pc = 0x00000078: inst = 0x00000fb3	t6 = 0
 
-pc = 0x0000007c: inst = 0x00001137	sp = 0x00001000
+pc = 0x0000007c: inst = 0x00001137	sp = 4096
 
-pc = 0x00000080: inst = 0x0040006f	zero = 0x00000000
+pc = 0x00000080: inst = 0x0040006f	zero = 0
 
-pc = 0x00000084: inst = 0xfd010113	sp = 0x00001030
+pc = 0x00000084: inst = 0xfd010113	sp = 4048
 
-pc = 0x00000088: inst = 0x02812623	
-pc = 0x0000008c: inst = 0x03010413	s0 = 0x00001060
+pc = 0x00000088: inst = 0x02812623	memory update addr: 0x00000ffc, data = 0x00000000
+pc = 0x0000008c: inst = 0x03010413	s0 = 4096
 
-pc = 0x00000090: inst = 0x00a00793	a5 = 0x0000000a
+pc = 0x00000090: inst = 0x00a00793	a5 = 10
 
-pc = 0x00000094: inst = 0xfef42623	
-pc = 0x00000098: inst = 0x01400793	a5 = 0x00000014
+pc = 0x00000094: inst = 0xfef42623	memory update addr: 0x00000fec, data = 0x0000000a
+pc = 0x00000098: inst = 0x01400793	a5 = 20
 
-pc = 0x0000009c: inst = 0xfef42423	
-pc = 0x000000a0: inst = 0xfec42703	a4 = 0x00000000
+pc = 0x0000009c: inst = 0xfef42423	memory update addr: 0x00000fe8, data = 0x00000014
+pc = 0x000000a0: inst = 0xfec42703	a4 = 10
 
-pc = 0x000000a4: inst = 0xfe842783	a5 = 0x00000000
+pc = 0x000000a4: inst = 0xfe842783	a5 = 20
 
-pc = 0x000000a8: inst = 0x00f707b3	a5 = 0x00000000
+pc = 0x000000a8: inst = 0x00f707b3	a5 = 30
 
-pc = 0x000000ac: inst = 0xfef42223	
-pc = 0x000000b0: inst = 0xfec42703	a4 = 0x00000000
+pc = 0x000000ac: inst = 0xfef42223	memory update addr: 0x00000fe4, data = 0x0000001e
+pc = 0x000000b0: inst = 0xfec42703	a4 = 10
 
-pc = 0x000000b4: inst = 0xfe842783	a5 = 0x00000000
+pc = 0x000000b4: inst = 0xfe842783	a5 = 20
 
-pc = 0x000000b8: inst = 0x40f707b3	a5 = 0x00000000
+pc = 0x000000b8: inst = 0x40f707b3	a5 = -10
 
-pc = 0x000000bc: inst = 0xfef42023	
-pc = 0x000000c0: inst = 0xfec42703	a4 = 0x00000000
+pc = 0x000000bc: inst = 0xfef42023	memory update addr: 0x00000fe0, data = 0xfffffff6
+pc = 0x000000c0: inst = 0xfec42703	a4 = 10
 
-pc = 0x000000c4: inst = 0xfe842783	a5 = 0x00000000
+pc = 0x000000c4: inst = 0xfe842783	a5 = 20
 
-pc = 0x000000c8: inst = 0x00f767b3	a5 = 0x00000000
+pc = 0x000000c8: inst = 0x00f767b3	a5 = 30
 
-pc = 0x000000cc: inst = 0xfcf42e23	
-pc = 0x000000d0: inst = 0xfec42703	a4 = 0x00000000
+pc = 0x000000cc: inst = 0xfcf42e23	memory update addr: 0x00000fdc, data = 0x0000001e
+pc = 0x000000d0: inst = 0xfec42703	a4 = 10
 
-pc = 0x000000d4: inst = 0xfe842783	a5 = 0x00000000
+pc = 0x000000d4: inst = 0xfe842783	a5 = 20
 
-pc = 0x000000d8: inst = 0x00f777b3	a5 = 0x00000000
+pc = 0x000000d8: inst = 0x00f777b3	a5 = 0
 
-pc = 0x000000dc: inst = 0xfcf42c23	
-pc = 0x000000e0: inst = 0x00000793	a5 = 0x00000000
+pc = 0x000000dc: inst = 0xfcf42c23	memory update addr: 0x00000fd8, data = 0x00000000
+pc = 0x000000e0: inst = 0x00000793	a5 = 0
 
-pc = 0x000000e4: inst = 0x00078513	a0 = 0x00000000
+pc = 0x000000e4: inst = 0x00078513	a0 = 0
 
-pc = 0x000000e8: inst = 0x02c12403	s0 = 0x00000000
+pc = 0x000000e8: inst = 0x02c12403	s0 = 0
 
-pc = 0x000000ec: inst = 0x03010113	sp = 0x00001060
+pc = 0x000000ec: inst = 0x03010113	sp = 4096
 
-pc = 0x000000f0: inst = 0x00008067	zero = 0x00000000
+pc = 0x000000f0: inst = 0x00008067	zero = 0
+
+pc = 0x00000000: inst = 0x000000b3	ra = 0
+
+pc = 0x00000004: inst = 0x00000133	sp = 0
+
+pc = 0x00000008: inst = 0x000001b3	gp = 0
+
+pc = 0x0000000c: inst = 0x00000233	tp = 0
+
+pc = 0x00000010: inst = 0x000002b3	t0 = 0
+
+pc = 0x00000014: inst = 0x00000333	t1 = 0
+
+pc = 0x00000018: inst = 0x000003b3	t2 = 0
+
+pc = 0x0000001c: inst = 0x00000433	s0 = 0
+
+pc = 0x00000020: inst = 0x000004b3	s1 = 0
+
+pc = 0x00000024: inst = 0x00000533	a0 = 0
+
+pc = 0x00000028: inst = 0x000005b3	a1 = 0
+
+pc = 0x0000002c: inst = 0x00000633	a2 = 0
+
+pc = 0x00000030: inst = 0x000006b3	a3 = 0
+
+pc = 0x00000034: inst = 0x00000733	a4 = 0
+
+pc = 0x00000038: inst = 0x000007b3	a5 = 0
+
+pc = 0x0000003c: inst = 0x00000833	a6 = 0
+
+pc = 0x00000040: inst = 0x000008b3	a7 = 0
+
+pc = 0x00000044: inst = 0x00000933	s2 = 0
+
+pc = 0x00000048: inst = 0x000009b3	s3 = 0
+
+pc = 0x0000004c: inst = 0x00000a33	s4 = 0
