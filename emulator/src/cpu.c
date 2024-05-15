@@ -48,7 +48,8 @@ const char* reg_name[32] = {
 void run(struct rv32i_cpu* cpu, uint8_t* memory) {
     uint32_t inst;
     uint32_t opcode;
-
+    //cpu init
+    cpu->pc = cpu->start_addr;
     while(1) {
         if(cnt++ > 80){
             return;
