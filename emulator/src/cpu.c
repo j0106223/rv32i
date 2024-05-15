@@ -16,7 +16,7 @@ uint32_t get_inst_func7(uint32_t inst);
 uint32_t imm_gen(uint32_t inst);
 void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value);
 uint32_t mem_read(uint8_t* memory, uint32_t addr);
-uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb);
+void mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb);
 uint32_t get_gpr(struct rv32i_cpu* cpu, int gpr_idx);
 void EXE_JAL(struct rv32i_cpu* cpu, uint32_t inst);
 void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst);
@@ -330,7 +330,7 @@ uint32_t mem_read(uint8_t* memory, uint32_t addr){
     return *((uint32_t *)(memory + addr));
 }
 
-uint32_t mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
+void mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
         uint8_t* data_ptr = (uint8_t *)&data;
 
         if (wstrb & 1) memory[addr]   = data_ptr[0]; //0001 = 1
