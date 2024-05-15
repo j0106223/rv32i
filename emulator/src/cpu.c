@@ -272,6 +272,8 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
             }
             break;
         default:
+            printf("B-Type decode error func3 = %x", func3);
+            exit(EXIT_FAILURE);
             break;
     }
     set_pc(cpu, target_pc);
@@ -387,6 +389,8 @@ uint32_t imm_gen(uint32_t inst) {
         }
         break;
     default:
+        printf("imm_gen() decode error opcode = %x", opcode);
+        exit(EXIT_FAILURE);
         break;
     }
     return imm;
