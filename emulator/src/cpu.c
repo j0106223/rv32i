@@ -70,6 +70,8 @@ void run(struct rv32i_cpu* cpu, uint8_t* memory) {
         case JAL    : EXE_JAL(cpu, inst);            break;
         case JALR   : EXE_JALR(cpu, inst);           break;
         default:
+            printf("Instruction decode error: opcode = %x", opcode);
+            exit(EXIT_FAILURE);
             break;
         }
     }
@@ -149,7 +151,7 @@ void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
     case 6: alu_op = OR;  break;
     case 7: alu_op = AND; break;
     default:
-        printf("decode alu operation error!!\n\n");
+        printf("decode alu operation error: func3 = %0x\n",func3);
         exit(EXIT_FAILURE);
         break;
     }
