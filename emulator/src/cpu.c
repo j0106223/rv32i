@@ -143,7 +143,7 @@ void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
     case 3: alu_op = SLTU;break;
     case 4: alu_op = XOR; break;
     case 5:
-        if(func7_bit6)
+        if (func7_bit6)
             alu_op = SRA;
         else
             alu_op = SRL;
@@ -228,7 +228,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
     {
         //BEQ
         case 0:
-            if(rs1_data == rs2_data) {
+            if (rs1_data == rs2_data) {
                 target_pc = get_pc(cpu) + imm;
             } else {
                 target_pc = get_pc(cpu) + 4;
@@ -236,7 +236,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
             break;
         //BNE
         case 1:
-            if(rs1_data != rs2_data) {
+            if (rs1_data != rs2_data) {
                 target_pc = get_pc(cpu) + imm;
             } else {
                 target_pc = get_pc(cpu) + 4;
@@ -438,14 +438,16 @@ uint32_t get_inst_field(uint32_t inst, int msb, int lsb) {
     field_mask = (1 << field_size) - 1;
     return (inst >> lsb) & field_mask;
 }
+
 void set_pc(struct rv32i_cpu* cpu, uint32_t target_pc) {
-    if((target_pc & 3) != 0) {
+    if ((target_pc & 3) != 0) {
         printf("target pc = 0x%x\n", target_pc);
         printf("misalign!!\n");
         exit(EXIT_FAILURE);
     }
     cpu->pc = target_pc;
 }
+
 uint32_t get_pc(struct rv32i_cpu* cpu) {
     if ((cpu->pc & 3) != 0) {
         printf("current pc = 0x%x\n", cpu->pc);

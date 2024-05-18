@@ -8,7 +8,7 @@ int main(int argc, char* argv[]) {
     struct rv32i_cpu cpu;
     char *hexfile;
 
-    if(argc != 2) {
+    if (argc != 2) {
         printf("Please specify the hex file\n");
         exit(EXIT_FAILURE);
     }
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
     //load executable file to system memory
-    if (hex2mem(hexfile, memory) == -1){
+    if (hex2mem(hexfile, memory) == -1) {
         printf("cant open %s file\n",hexfile);
         exit(EXIT_FAILURE);
     }
