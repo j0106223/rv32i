@@ -1,3 +1,6 @@
+#ifndef __CPU_HEADER__
+#define __CPU_HEADER__
+
 #include <stdint.h>
 
 #define R_TYPE 51   // 0110011
@@ -30,3 +33,7 @@ enum ALUOp {
 };
 
 void run(struct rv32i_cpu* cpu, uint8_t* memory);
+
+#endif
+
+
