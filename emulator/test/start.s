@@ -1,6 +1,7 @@
     .section .text
 	.global _start
     .global main
+    .global finish
 _start:
     add    x1,  x0, x0
     add    x2,  x0, x0
@@ -35,4 +36,5 @@ _start:
     add    x31, x0, x0
     li      sp, 0x1000    
     jal     x0, main  # jump to main
-    
+finish:
+    ecall

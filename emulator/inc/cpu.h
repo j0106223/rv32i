@@ -1,8 +1,14 @@
 #ifndef __CPU_HEADER__
 #define __CPU_HEADER__
-
 #include <stdint.h>
 
+#ifndef DEBUG
+    #define debug_print
+#else
+    #define debug_print printf
+#endif
+
+#define UART_BASE 0x08000000
 #define R_TYPE 51   // 0110011
 #define IR_TYPE 19  // 0010011
 #define LOAD 3      // 0000011
@@ -12,6 +18,7 @@
 #define AUIPC 23    // 0010111
 #define JAL 111     // 1101111
 #define JALR 103    // 1100111
+#define SYSTEM 115  // 1110011
 struct rv32i_cpu
 {
     uint32_t pc;

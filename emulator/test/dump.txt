@@ -37,37 +37,98 @@ Disassembly of section .text:
   74:	00000f33          	add	t5,zero,zero
   78:	00000fb3          	add	t6,zero,zero
   7c:	00001137          	lui	sp,0x1
-  80:	0040006f          	j	84 <main>
+  80:	0080006f          	j	88 <main>
 
-00000084 <main>:
-  84:	fd010113          	addi	sp,sp,-48 # fd0 <main+0xf4c>
-  88:	02812623          	sw	s0,44(sp)
-  8c:	03010413          	addi	s0,sp,48
-  90:	00a00793          	li	a5,10
-  94:	fef42623          	sw	a5,-20(s0)
-  98:	01400793          	li	a5,20
-  9c:	fef42423          	sw	a5,-24(s0)
-  a0:	fec42703          	lw	a4,-20(s0)
-  a4:	fe842783          	lw	a5,-24(s0)
-  a8:	00f707b3          	add	a5,a4,a5
-  ac:	fef42223          	sw	a5,-28(s0)
-  b0:	fec42703          	lw	a4,-20(s0)
-  b4:	fe842783          	lw	a5,-24(s0)
-  b8:	40f707b3          	sub	a5,a4,a5
-  bc:	fef42023          	sw	a5,-32(s0)
-  c0:	fec42703          	lw	a4,-20(s0)
-  c4:	fe842783          	lw	a5,-24(s0)
-  c8:	00f767b3          	or	a5,a4,a5
-  cc:	fcf42e23          	sw	a5,-36(s0)
-  d0:	fec42703          	lw	a4,-20(s0)
-  d4:	fe842783          	lw	a5,-24(s0)
-  d8:	00f777b3          	and	a5,a4,a5
-  dc:	fcf42c23          	sw	a5,-40(s0)
-  e0:	00000793          	li	a5,0
-  e4:	00078513          	mv	a0,a5
-  e8:	02c12403          	lw	s0,44(sp)
-  ec:	03010113          	addi	sp,sp,48
-  f0:	00008067          	ret
+00000084 <finish>:
+  84:	00000073          	ecall
+
+00000088 <main>:
+  88:	fe010113          	addi	sp,sp,-32 # fe0 <_puts+0xea4>
+  8c:	00112e23          	sw	ra,28(sp)
+  90:	00812c23          	sw	s0,24(sp)
+  94:	02010413          	addi	s0,sp,32
+  98:	fe042623          	sw	zero,-20(s0)
+  9c:	0200006f          	j	bc <main+0x34>
+  a0:	16c00513          	li	a0,364
+  a4:	040000ef          	jal	e4 <print>
+  a8:	17c00513          	li	a0,380
+  ac:	038000ef          	jal	e4 <print>
+  b0:	fec42783          	lw	a5,-20(s0)
+  b4:	00178793          	addi	a5,a5,1
+  b8:	fef42623          	sw	a5,-20(s0)
+  bc:	fec42703          	lw	a4,-20(s0)
+  c0:	01300793          	li	a5,19
+  c4:	fce7dee3          	bge	a5,a4,a0 <main+0x18>
+  c8:	fbdff0ef          	jal	84 <finish>
+  cc:	00000793          	li	a5,0
+  d0:	00078513          	mv	a0,a5
+  d4:	01c12083          	lw	ra,28(sp)
+  d8:	01812403          	lw	s0,24(sp)
+  dc:	02010113          	addi	sp,sp,32
+  e0:	00008067          	ret
+
+000000e4 <print>:
+  e4:	fe010113          	addi	sp,sp,-32
+  e8:	00112e23          	sw	ra,28(sp)
+  ec:	00812c23          	sw	s0,24(sp)
+  f0:	02010413          	addi	s0,sp,32
+  f4:	fea42623          	sw	a0,-20(s0)
+  f8:	0200006f          	j	118 <print+0x34>
+  fc:	fec42783          	lw	a5,-20(s0)
+ 100:	0007c783          	lbu	a5,0(a5)
+ 104:	00078513          	mv	a0,a5
+ 108:	034000ef          	jal	13c <_puts>
+ 10c:	fec42783          	lw	a5,-20(s0)
+ 110:	00178793          	addi	a5,a5,1
+ 114:	fef42623          	sw	a5,-20(s0)
+ 118:	fec42783          	lw	a5,-20(s0)
+ 11c:	0007c783          	lbu	a5,0(a5)
+ 120:	fc079ee3          	bnez	a5,fc <print+0x18>
+ 124:	00000013          	nop
+ 128:	00000013          	nop
+ 12c:	01c12083          	lw	ra,28(sp)
+ 130:	01812403          	lw	s0,24(sp)
+ 134:	02010113          	addi	sp,sp,32
+ 138:	00008067          	ret
+
+0000013c <_puts>:
+ 13c:	fe010113          	addi	sp,sp,-32
+ 140:	00812e23          	sw	s0,28(sp)
+ 144:	02010413          	addi	s0,sp,32
+ 148:	00050793          	mv	a5,a0
+ 14c:	fef407a3          	sb	a5,-17(s0)
+ 150:	080007b7          	lui	a5,0x8000
+ 154:	fef44703          	lbu	a4,-17(s0)
+ 158:	00e7a023          	sw	a4,0(a5) # 8000000 <_puts+0x7fffec4>
+ 15c:	00000013          	nop
+ 160:	01c12403          	lw	s0,28(sp)
+ 164:	02010113          	addi	sp,sp,32
+ 168:	00008067          	ret
+
+Disassembly of section .rodata:
+
+0000016c <.rodata>:
+ 16c:	6548                	.insn	2, 0x6548
+ 16e:	6c6c                	.insn	2, 0x6c6c
+ 170:	6f57206f          	j	73064 <_puts+0x72f28>
+ 174:	6c72                	.insn	2, 0x6c72
+ 176:	2164                	.insn	2, 0x2164
+ 178:	0a21                	.insn	2, 0x0a21
+ 17a:	0000                	.insn	2, 0x
+ 17c:	4b54                	.insn	2, 0x4b54
+ 17e:	4555                	.insn	2, 0x4555
+ 180:	2045                	.insn	2, 0x2045
+ 182:	414c                	.insn	2, 0x414c
+ 184:	3a42                	.insn	2, 0x3a42
+ 186:	5220                	.insn	2, 0x5220
+ 188:	3356                	.insn	2, 0x3356
+ 18a:	4932                	.insn	2, 0x4932
+ 18c:	4520                	.insn	2, 0x4520
+ 18e:	756d                	.insn	2, 0x756d
+ 190:	616c                	.insn	2, 0x616c
+ 192:	6f74                	.insn	2, 0x6f74
+ 194:	0a72                	.insn	2, 0x0a72
+	...
 
 Disassembly of section .riscv.attributes:
 
