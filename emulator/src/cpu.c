@@ -49,15 +49,12 @@ void run(struct rv32i_cpu* cpu, const uint32_t reset_vector, uint8_t* memory) {
     uint32_t inst;
     uint32_t opcode;
     //cpu init
+    printf("===============The simulation is starting===============\n");
     set_pc(cpu, reset_vector);
-
     while(1) {
-        if(cnt++ > 80){
-            return;
-        }
         //instruction fetch
         inst = fetch_inst(memory, get_pc(cpu));
-        printf("\npc = 0x%08x: inst = 0x%08x\t",cpu->pc, inst);
+        debug_print("\npc = 0x%08x: inst = 0x%08x\t", cpu->pc, inst);
         opcode = inst & 127;
         switch (opcode)
         {
@@ -70,8 +67,13 @@ void run(struct rv32i_cpu* cpu, const uint32_t reset_vector, uint8_t* memory) {
         case AUIPC  : EXE_AUIPC(cpu, inst);          break;
         case JAL    : EXE_JAL(cpu, inst);            break;
         case JALR   : EXE_JALR(cpu, inst);           break;
+        case SYSTEM :
+            printf("===============The simulation is finished===============\n");
+            //ecall or ebreak
+            exit(EXIT_SUCCESS);
+            break;
         default:
-            printf("Instruction decode error: opcode = %x", opcode);
+            debug_print("Instruction decode error: opcode = %x", opcode);
             exit(EXIT_FAILURE);
             break;
         }
@@ -80,8 +82,8 @@ void run(struct rv32i_cpu* cpu, const uint32_t reset_vector, uint8_t* memory) {
 
 uint32_t fetch_inst(uint8_t* memory, uint32_t addr) {
     if (addr & 3 != 0) {
-        printf("addr = 0x%x\n",addr);
-        printf("misalign!!\n");
+        debug_print("addr = 0x%x\n",addr);
+        debug_print("misalign!!\n");
         exit(EXIT_FAILURE);
     }
     return mem_read(memory, addr);
@@ -112,7 +114,7 @@ uint32_t alu(enum ALUOp alu_op, uint32_t a, uint32_t b) {
     case AND:  result = a & b;
         break;
     default:
-        printf("not support aluop %d", alu_op);
+        debug_print("not support aluop %d", alu_op);
         exit(EXIT_FAILURE);
         break;
     }
@@ -152,7 +154,7 @@ void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
     case 6: alu_op = OR;  break;
     case 7: alu_op = AND; break;
     default:
-        printf("decode alu operation error: func3 = %0x\n",func3);
+        debug_print("decode alu operation error: func3 = %0x\n",func3);
         exit(EXIT_FAILURE);
         break;
     }
@@ -174,17 +176,18 @@ void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     switch (func3)
     {
     //LB
-    case 0: rd_data = (int8_t)(rd_data & 0xF); break;
+    case 0: rd_data = (int8_t)(rd_data & 0xFF); break;
     //LH
-    case 1: rd_data = (int16_t)(rd_data & 0xFF);  break;
+    case 1: rd_data = (int16_t)(rd_data & 0xFFFF);  break;
     //LW
     case 2: break;
     //LBU
-    case 4: rd_data = rd_data & 0xF; break;
+    case 4: rd_data = rd_data & 0xFF;
+        break;
     //LHU
-    case 5: rd_data = rd_data & 0xFF;  break;
+    case 5: rd_data = rd_data & 0xFFFF;  break;
     default:
-        printf("Load-Type decode error func3 = %x", func3);
+        debug_print("Load-Type decode error func3 = %x", func3);
         exit(EXIT_FAILURE);
         break;
     }
@@ -211,7 +214,7 @@ void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     case 2: mem_write(memory, addr, rs2_data, 0xf); break;
     
     default:
-        printf("S-Type decode error func3 = %x", func3);
+        debug_print("S-Type decode error func3 = %x", func3);
         exit(EXIT_FAILURE);
         break;
     }
@@ -276,7 +279,7 @@ void EXE_B_TYPE(struct rv32i_cpu* cpu, uint32_t inst) {
             }
             break;
         default:
-            printf("B-Type decode error func3 = %x", func3);
+            debug_print("B-Type decode error func3 = %x", func3);
             exit(EXIT_FAILURE);
             break;
     }
@@ -328,22 +331,25 @@ void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value) {
     if (gpr_idx > 0) {
         cpu->x[gpr_idx] = value;
     }
-    printf("%s = %d\n", reg_name[gpr_idx], (int)get_gpr(cpu, gpr_idx));
-    //printf("%s = 0x%08x\n", reg_name[gpr_idx], get_gpr(cpu, gpr_idx));
+    debug_print("%s = %d\n", reg_name[gpr_idx], (int)get_gpr(cpu, gpr_idx));
+    //debug_print("%s = 0x%08x\n", reg_name[gpr_idx], get_gpr(cpu, gpr_idx));
 }
 
 uint32_t mem_read(uint8_t* memory, uint32_t addr){
     return *((uint32_t *)(memory + addr));
 }
 
-void mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb){
+void mem_write(uint8_t* memory, uint32_t addr, uint32_t data, int wstrb) {
         uint8_t* data_ptr = (uint8_t *)&data;
-
-        if (wstrb & 1) memory[addr]   = data_ptr[0]; //0001 = 1
-        if (wstrb & 2) memory[addr+1] = data_ptr[1]; //0010 = 2
-        if (wstrb & 4) memory[addr+2] = data_ptr[2]; //0100 = 4
-        if (wstrb & 8) memory[addr+3] = data_ptr[3]; //1000 = 8
-        printf("memory update addr: 0x%08x, data = 0x%08x",addr, data);
+        if (addr == UART_BASE && (wstrb & 1)) {
+            printf("%c", data_ptr[0]);
+        } else {
+            if (wstrb & 1) memory[addr]   = data_ptr[0]; //0001 = 1
+            if (wstrb & 2) memory[addr+1] = data_ptr[1]; //0010 = 2
+            if (wstrb & 4) memory[addr+2] = data_ptr[2]; //0100 = 4
+            if (wstrb & 8) memory[addr+3] = data_ptr[3]; //1000 = 8
+            debug_print("memory update addr: 0x%08x, data = 0x%08x",addr, data);
+        }
 }
 
 uint32_t imm_gen(uint32_t inst) {
@@ -393,7 +399,7 @@ uint32_t imm_gen(uint32_t inst) {
         }
         break;
     default:
-        printf("imm_gen() decode error opcode = %x", opcode);
+        debug_print("imm_gen() decode error opcode = %x", opcode);
         exit(EXIT_FAILURE);
         break;
     }
@@ -431,9 +437,9 @@ uint32_t get_inst_field(uint32_t inst, int msb, int lsb) {
     int field_size = msb - lsb + 1;
     uint32_t field_mask;
     if (msb < lsb) {
-        printf("msb = %d\n", msb);
-        printf("lsb = %d\n", lsb);
-        printf("get_inst_field() msb should not small than lsb!!\n");
+        debug_print("msb = %d\n", msb);
+        debug_print("lsb = %d\n", lsb);
+        debug_print("get_inst_field() msb should not small than lsb!!\n");
         exit(EXIT_FAILURE);
     }
     field_mask = (1 << field_size) - 1;
@@ -442,8 +448,8 @@ uint32_t get_inst_field(uint32_t inst, int msb, int lsb) {
 
 void set_pc(struct rv32i_cpu* cpu, uint32_t target_pc) {
     if ((target_pc & 3) != 0) {
-        printf("target pc = 0x%x\n", target_pc);
-        printf("misalign!!\n");
+        debug_print("target pc = 0x%x\n", target_pc);
+        debug_print("misalign!!\n");
         exit(EXIT_FAILURE);
     }
     cpu->pc = target_pc;
@@ -451,8 +457,8 @@ void set_pc(struct rv32i_cpu* cpu, uint32_t target_pc) {
 
 uint32_t get_pc(struct rv32i_cpu* cpu) {
     if ((cpu->pc & 3) != 0) {
-        printf("current pc = 0x%x\n", cpu->pc);
-        printf("misalign!!\n");
+        debug_print("current pc = 0x%x\n", cpu->pc);
+        debug_print("misalign!!\n");
         exit(EXIT_FAILURE);
     }
     return cpu->pc;
