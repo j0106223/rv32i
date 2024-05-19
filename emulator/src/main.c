@@ -5,6 +5,7 @@
 #define MEM_SIZE 0x1000
 int main(int argc, char* argv[]) {
     uint8_t* memory;
+    const uint32_t reset_vector = 0x0;
     struct rv32i_cpu cpu;
     char *hexfile;
 
@@ -26,10 +27,7 @@ int main(int argc, char* argv[]) {
         printf("cant open %s file\n",hexfile);
         exit(EXIT_FAILURE);
     }
-
-    //set cpu start address
-    cpu.start_addr = 0x00;
-    
-    run(&cpu, memory);
+ 
+    run(&cpu, reset_vector, memory);
     return 0;
 }

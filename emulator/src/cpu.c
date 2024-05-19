@@ -4,7 +4,7 @@
 
 
 uint32_t get_pc(struct rv32i_cpu* cpu);
-void set_pc(struct rv32i_cpu* cpu, uint32_t target_pc); 
+void set_pc(struct rv32i_cpu* cpu, uint32_t target_pc);
 uint32_t get_inst_field(uint32_t inst, int msb, int lsb);
 uint32_t get_inst_bit(uint32_t inst, int idx);
 uint32_t get_inst_opcode(uint32_t inst);
@@ -45,11 +45,12 @@ const char* reg_name[32] = {
             "s2","s3","s4","s5","s6","s7","s8","s9","s10","s11",
             "t3","t4","t5","t6"
         };
-void run(struct rv32i_cpu* cpu, uint8_t* memory) {
+void run(struct rv32i_cpu* cpu, const uint32_t reset_vector, uint8_t* memory) {
     uint32_t inst;
     uint32_t opcode;
     //cpu init
-    cpu->pc = cpu->start_addr;
+    set_pc(cpu, reset_vector);
+
     while(1) {
         if(cnt++ > 80){
             return;
