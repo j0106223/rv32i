@@ -51,10 +51,11 @@ void run(struct rv32i_cpu* cpu, const uint32_t reset_vector, uint8_t* memory) {
     //cpu init
     printf("===============The simulation is starting===============\n");
     set_pc(cpu, reset_vector);
+    size_t cnt = 0;
     while(1) {
         //instruction fetch
         inst = fetch_inst(memory, get_pc(cpu));
-        debug_print("\npc = 0x%08x: inst = 0x%08x\t", cpu->pc, inst);
+        debug_print("\n%zu ns: pc = 0x%08x: inst = 0x%08x\t", cnt++, cpu->pc, inst);
         opcode = inst & 127;
         switch (opcode)
         {
@@ -132,7 +133,6 @@ void EXE_R_TYPE(struct rv32i_cpu* cpu, uint32_t inst, int alu_source) {
     uint32_t func7_bit6 = get_inst_bit(inst, 30);
     uint32_t target_pc = get_pc(cpu) + 4;
     enum ALUOp alu_op;
-
     switch (func3)
     {
     case 0://ADD or SUB
@@ -180,7 +180,9 @@ void EXE_LOAD(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     //LH
     case 1: rd_data = (int16_t)(rd_data & 0xFFFF);  break;
     //LW
-    case 2: break;
+    case 2:
+        debug_print("[lw %s %d(%s)]\t\t",reg_name[rd], imm, reg_name[rs1]);
+        break;
     //LBU
     case 4: rd_data = rd_data & 0xFF;
         break;
@@ -211,7 +213,10 @@ void EXE_S_TYPE(struct rv32i_cpu* cpu, uint32_t inst, uint8_t* memory) {
     //SH
     case 1: mem_write(memory, addr, rs2_data, 0x3); break;
     //SW
-    case 2: mem_write(memory, addr, rs2_data, 0xf); break;
+    case 2:
+        debug_print("[sw %s %d(%s)]\t\t",reg_name[rs2], imm, reg_name[rs1]);
+        mem_write(memory, addr, rs2_data, 0xf);
+        break;
     
     default:
         debug_print("S-Type decode error func3 = %x", func3);
@@ -310,12 +315,14 @@ void EXE_JAL(struct rv32i_cpu* cpu, uint32_t inst) {
 }
 
 void EXE_JALR(struct rv32i_cpu* cpu, uint32_t inst) {
-    uint32_t rs1 = get_inst_rs1(inst);
+    uint32_t rs1 = get_inst_rs1(inst);//base
     uint32_t rd = get_inst_rd(inst);
     uint32_t imm = imm_gen(inst);
     uint32_t rd_data = get_pc(cpu) + 4;
     uint32_t rs1_data = get_gpr(cpu, rs1);
     uint32_t target_pc = rs1_data + imm;;
+    debug_print("[jalr %s %d(%s)]\t\t",reg_name[rd],imm,reg_name[rs1]);
+
     set_gpr(cpu, rd, rd_data);
     set_pc(cpu, target_pc);
 }
@@ -330,8 +337,8 @@ uint32_t get_gpr(struct rv32i_cpu* cpu, int gpr_idx) {
 void set_gpr(struct rv32i_cpu* cpu, int gpr_idx, uint32_t value) {
     if (gpr_idx > 0) {
         cpu->x[gpr_idx] = value;
+        debug_print("%s = %d\n", reg_name[gpr_idx], (int)get_gpr(cpu, gpr_idx));
     }
-    debug_print("%s = %d\n", reg_name[gpr_idx], (int)get_gpr(cpu, gpr_idx));
     //debug_print("%s = 0x%08x\n", reg_name[gpr_idx], get_gpr(cpu, gpr_idx));
 }
 
