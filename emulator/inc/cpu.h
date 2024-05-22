@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 #ifndef DEBUG
-    #define debug_print
+    #define debug_print(fmt, args...)
 #else
     #define debug_print printf
 #endif
