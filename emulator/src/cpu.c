@@ -73,7 +73,7 @@ void run(struct rv32i_cpu* cpu, const uint32_t reset_vector, uint8_t* memory) {
         case JAL    : EXE_JAL(cpu, inst);            break;
         case JALR   : EXE_JALR(cpu, inst);           break;
         case SYSTEM :
-            printf("===============The simulation is finished===============\n");
+            printf("\n===============The simulation is finished===============\n");
             //ecall or ebreak
             exit(EXIT_SUCCESS);
             break;
