@@ -5,7 +5,7 @@ make
 #gen model elf without debug message
 cd ..
 cd src/
-gcc -o rv32i_emulator main.c cpu.c loader.c -I/home/jj/Documents/rv32i/emulator/inc
+make debug_off
 cd ..
 cd test
 ../src/./rv32i_emulator a.hex > output.log
@@ -14,7 +14,7 @@ cd test
 #gen model elf with debug message
 cd ..
 cd src/
-gcc -o rv32i_emulator main.c cpu.c loader.c -DDEBUG -I/home/jj/Documents/rv32i/emulator/inc
+make debug_on
 cd ..
 cd test
 ../src/./rv32i_emulator a.hex > debug.log

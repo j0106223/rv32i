@@ -7,7 +7,7 @@ void _puts(const char p);
 int main(void) {
     for(int i = 0; i < 20; i++){
         print("Hello World!!\n");
-        print("TKUEE LAB: RV32I Emulator\n");
+        print("TKUEE ICLAB: RV32I Emulator\n");
     }
     finish();
     return 0;

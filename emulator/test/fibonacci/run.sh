@@ -8,7 +8,7 @@ cd src/
 make debug_off
 cd ..
 cd test
-cd sorting
+cd fibonacci
 ../../src/./rv32i_emulator a.hex > output.log
 
 ################################################
@@ -18,5 +18,5 @@ cd src/
 make debug_on
 cd ..
 cd test
-cd sorting
+cd fibonacci
 ../../src/./rv32i_emulator a.hex > debug.log

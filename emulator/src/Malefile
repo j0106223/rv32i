@@ -1,1 +1,0 @@
-gcc -o rv32i_emulator main.c cpu.c loader.c -I/home/jj/Documents/rv32i/emulator/inc

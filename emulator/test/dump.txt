@@ -118,16 +118,17 @@ Disassembly of section .rodata:
  17c:	4b54                	.insn	2, 0x4b54
  17e:	4555                	.insn	2, 0x4555
  180:	2045                	.insn	2, 0x2045
- 182:	414c                	.insn	2, 0x414c
- 184:	3a42                	.insn	2, 0x3a42
- 186:	5220                	.insn	2, 0x5220
- 188:	3356                	.insn	2, 0x3356
- 18a:	4932                	.insn	2, 0x4932
- 18c:	4520                	.insn	2, 0x4520
- 18e:	756d                	.insn	2, 0x756d
- 190:	616c                	.insn	2, 0x616c
- 192:	6f74                	.insn	2, 0x6f74
- 194:	0a72                	.insn	2, 0x0a72
+ 182:	4349                	.insn	2, 0x4349
+ 184:	414c                	.insn	2, 0x414c
+ 186:	3a42                	.insn	2, 0x3a42
+ 188:	5220                	.insn	2, 0x5220
+ 18a:	3356                	.insn	2, 0x3356
+ 18c:	4932                	.insn	2, 0x4932
+ 18e:	4520                	.insn	2, 0x4520
+ 190:	756d                	.insn	2, 0x756d
+ 192:	616c                	.insn	2, 0x616c
+ 194:	6f74                	.insn	2, 0x6f74
+ 196:	0a72                	.insn	2, 0x0a72
 	...
 
 Disassembly of section .riscv.attributes:
