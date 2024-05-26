@@ -3,18 +3,20 @@ make clean
 make
 ################################################
 #gen model elf without debug message
-cd ..
+cd ../../
 cd src/
 make debug_off
 cd ..
 cd test
-../src/./rv32i_emulator a.hex > output.log
+cd hello_world
+../../src/./rv32i_emulator a.hex > output.log
 
 ################################################
 #gen model elf with debug message
-cd ..
+cd ../../
 cd src/
 make debug_on
 cd ..
 cd test
-../src/./rv32i_emulator a.hex > debug.log
+cd hello_world
+../../src/./rv32i_emulator a.hex > debug.log
