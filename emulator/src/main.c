@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "cpu.h"
 #include "loader.h"
-#define MEM_SIZE 0x1000
+#define MEM_SIZE 0x2000
 int main(int argc, char* argv[]) {
     uint8_t* memory;
     const uint32_t reset_vector = 0x0;
