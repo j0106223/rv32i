@@ -7,6 +7,8 @@ _start:
     add    x2,  x0, x0
     add    x3,  x0, x0
     add    x4,  x0, x0
+_test1:
+    add    x5,  x0, x0
     add    x5,  x0, x0
     add    x6,  x0, x0
     add    x7,  x0, x0
