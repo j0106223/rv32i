@@ -34,11 +34,17 @@ module alu (
             ADD :result = Data1 + Data2;
             SUB :result = Data1 - Data2;
             SLL :result = Data1 << Data2[4:0];
-            SLT :
+            SLT :begin
+                    if(Data1[31] ^ Data2[31])begin
+                        result = (Data2[31]) ? 1'b1 : 1'b0;
+                    end else begin
+                        result = (Data1 < Data2);       
+                    end
+            end
             SLTU:result = (Data1 < Data2);
             XOR :result = Data1 ^ Data2;
             SRL :result = Data1 >> Data2[4:0];
-            SRA :
+            SRA :result = Data1 >>> Data2[4:0];
             OR  :result = Data1 | Data2;
             AND :result = Data1 & Data2;
             default result = 32'hxxxx_xxxx;
