@@ -5,10 +5,16 @@ module alu_control (
     ALUOp,
     ALU_Operation
 );
-    localparam AND = 4'b0000;
-    localparam OR  = 4'b0001;
-    localparam ADD = 4'b0010;
-    localparam SUB = 4'b0110;
+    localparam ADD  = 4'b0000;
+    localparam SUB  = 4'b0001;
+    localparam SLL  = 4'b0010;
+    localparam SLT  = 4'b0011;
+    localparam SLTU = 4'b0100;
+    localparam XOR  = 4'b0101;
+    localparam SRL  = 4'b0110;
+    localparam SRA  = 4'b0111;
+    localparam OR   = 4'b1000;
+    localparam AND  = 4'b1001;
 
     input  wire [2:0] instruction_funct3;
     input  wire       instruction_funct7;//just only needs take instruction[30],funct7[6]
