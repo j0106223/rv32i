@@ -9,6 +9,8 @@ private:
     uint32_t pc;
     uint32_t reset_vecotor;
     uint32_t *mem;
+    uint32_t mem_size;
+    void init_gpr();
 public:
     int run();
     int reset();
